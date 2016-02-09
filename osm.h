@@ -4,7 +4,7 @@
 
 typedef struct noeud_s
 {
-	int id;
+	int64_t id;
 	float lat;
 	float longi;
 	int visible;
@@ -17,4 +17,4 @@ typedef struct tree_node_s{
 }tree_node;
 
 void insert(noeud* no, tree_node* root);
-noeud* getNoeudbyId(int id, tree_node* root);
+noeud* getNoeudbyId(int64_t id, tree_node* root);
