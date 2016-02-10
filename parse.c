@@ -8,7 +8,7 @@
 #include "osm.h"
 #include "parse.h"
 
-void debugNode(noeud* n)
+void debugNode(node* n)
 {
 	printf("id %li\n", n->id);
 	printf("lat %f\n", n->lat);
@@ -16,24 +16,24 @@ void debugNode(noeud* n)
 	printf("visible %d \n", n->visible);
 
 }
-void parsetoabr(xmlNode* node, tree_node* root, tree_way* root2)
+void parsetoabr(xmlNode* nodeX, tree_node* rootN, tree_way* rootW)
 {
 	xmlNode* curr=NULL;
-    noeud* no = malloc(sizeof(noeud));
+    node* no = malloc(sizeof(node));
     way* wa = malloc(sizeof(way));
-	for(curr = node;curr;curr=curr->next)
+	for(curr = nodeX;curr;curr=curr->next)
 	{
 		 if (curr->type == XML_ELEMENT_NODE) {
             if(strcmp(curr->name, "node") == 0){
 
-        		no = malloc(sizeof(noeud));
+        		no = malloc(sizeof(node));
         		no->id = atoll(xmlGetProp(curr, "id"));
         		no->lat = atof(xmlGetProp(curr, "lat"));
         		no->longi = atof(xmlGetProp(curr, "lon"));
         		no->visible = 1;
 
         		//debugNode(no);
-        		insertNode(no, root);
+        		insertNode(no, rootN);
          	}
          	if(strcmp(curr->name, "way") == 0){
 
@@ -42,14 +42,14 @@ void parsetoabr(xmlNode* node, tree_node* root, tree_way* root2)
         		wa->visible = 1;
 
         		//debugNode(no);
-        		insertWay(wa, root2);
+        		insertWay(wa, rootW);
          	}
         }
-        parsetoabr(curr->children, root,root2);
+        parsetoabr(curr->children, rootN ,rootW);
 	}
 }
 
-int parse(char* filename, tree_node* abr, tree_way* abr2)
+int parse(char* filename, tree_node* abrN, tree_way* abrW)
 {
 	LIBXML_TEST_VERSION
 	xmlDocPtr doc;
@@ -60,7 +60,7 @@ int parse(char* filename, tree_node* abr, tree_way* abr2)
 		return 1;
 	}
 	root_element = xmlDocGetRootElement(doc);
-	parsetoabr(root_element, abr, abr2);
+	parsetoabr(root_element, abrN, abrW);
 
 	xmlFreeDoc(doc);
 	xmlCleanupParser();

@@ -17,7 +17,7 @@ int main(int argc, char* argv)
 		fprintf(stderr, "Erreur à l'ouverture de  %s \n", filename);
 	}
 
-	printf("# %p <- \n",getNoeudById(3257359455, abr));
+	printf("# %p <- \n",getNodeById(3257359455, abr));
 	printf("# %p <- \n",getWayById(4039117, abr3));
 
 	return 0;

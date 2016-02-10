@@ -4,7 +4,7 @@
 #include "osm.h"
 
 
-void insertNode(noeud* no, tree_node* root)
+void insertNode(node* no, tree_node* root)
 {
 	if(no != NULL)
 	{
@@ -13,7 +13,7 @@ void insertNode(noeud* no, tree_node* root)
 			root->n = no;
 			return;
 		}
-		noeud* nr = root->n;
+		node* nr = root->n;
 		if(no->id < nr->id)
 		{
 			if(root->n_gauche == NULL)
@@ -46,7 +46,7 @@ void insertNode(noeud* no, tree_node* root)
 	}
 }
 
-noeud* getNoeudById(int64_t id, tree_node* root)
+node* getNodeById(int64_t id, tree_node* root)
 {
 	 if(root->n->id == id)
 	 {
@@ -60,14 +60,14 @@ noeud* getNoeudById(int64_t id, tree_node* root)
 	 		if(root->n_gauche == NULL){
 	 			return NULL;
 	 		}
-	 		return getNoeudById(id, root->n_gauche);
+	 		return getNodeById(id, root->n_gauche);
 	 	}
 	 	if(id > root->n->id)
 	 	{
 	 		if(root->n_droite == NULL){
 	 			return NULL;
 	 		}
-	 		return getNoeudById(id, root->n_droite);
+	 		return getNodeById(id, root->n_droite);
 	 	}
 	 }
 }

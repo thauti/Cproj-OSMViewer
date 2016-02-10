@@ -4,6 +4,6 @@
 #include <libxml/tree.h>
 
 
-void debugNode(noeud* n);
-void parsetoabr(xmlNode* node, tree_node* root, tree_way* root2);
-int parse(char* filename, tree_node* abr, tree_way* abr2);
+void debugNode(node* n);
+void parsetoabr(xmlNode* node, tree_node* rootN, tree_way* rootW);
+int parse(char* filename, tree_node* abrN, tree_way* abrW);

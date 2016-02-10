@@ -2,18 +2,18 @@
 #include <stdio.h>
 
 
-typedef struct noeud_s
+typedef struct node_s
 {
 	int64_t id;
 	float lat;
 	float longi;
 	char visible;
-}noeud;
+}node;
 
 typedef struct way_s
 {
 	int64_t id;
-	noeud** nodes;
+	node** nodes;
 	int carac;
 	char* nom;
 	char sensUnique;
@@ -28,12 +28,12 @@ typedef struct tree_way_s
 }tree_way;
 
 typedef struct tree_node_s{
-	noeud* n;
+	node* n;
 	struct tree_node_s* n_gauche;
 	struct tree_node_s* n_droite;
 }tree_node;
 
-void insertNode(noeud* no, tree_node* root);
-noeud* getNoeudById(int64_t id, tree_node* root);
+void insertNode(node* no, tree_node* root);
+node* getNodeById(int64_t id, tree_node* root);
 void insertWay(way* no, tree_way* root);
 way* getWayById(int64_t id, tree_way* root);
