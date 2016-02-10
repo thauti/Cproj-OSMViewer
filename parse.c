@@ -16,10 +16,11 @@ void debugNode(noeud* n)
 	printf("visible %d \n", n->visible);
 
 }
-void parsetoabr(xmlNode* node, tree_node* root)
+void parsetoabr(xmlNode* node, tree_node* root, tree_way* root2)
 {
 	xmlNode* curr=NULL;
     noeud* no = malloc(sizeof(noeud));
+    way* wa = malloc(sizeof(way));
 	for(curr = node;curr;curr=curr->next)
 	{
 		 if (curr->type == XML_ELEMENT_NODE) {
@@ -32,15 +33,23 @@ void parsetoabr(xmlNode* node, tree_node* root)
         		no->visible = 1;
 
         		//debugNode(no);
-        		insert(no, root);
+        		insertNode(no, root);
+         	}
+         	if(strcmp(curr->name, "way") == 0){
+
+        		wa = malloc(sizeof(way));
+        		wa->id = atoll(xmlGetProp(curr, "id"));
+        		wa->visible = 1;
+
+        		//debugNode(no);
+        		insertWay(wa, root2);
          	}
         }
-
-        parsetoabr(curr->children, root);
+        parsetoabr(curr->children, root,root2);
 	}
 }
 
-int parse(char* filename, tree_node* abr)
+int parse(char* filename, tree_node* abr, tree_way* abr2)
 {
 	LIBXML_TEST_VERSION
 	xmlDocPtr doc;
@@ -51,7 +60,7 @@ int parse(char* filename, tree_node* abr)
 		return 1;
 	}
 	root_element = xmlDocGetRootElement(doc);
-	parsetoabr(root_element, abr);
+	parsetoabr(root_element, abr, abr2);
 
 	xmlFreeDoc(doc);
 	xmlCleanupParser();
