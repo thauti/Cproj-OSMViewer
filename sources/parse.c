@@ -32,8 +32,14 @@ void parsetoabr(xmlNode* nodeX, tree_node* rootN, tree_way* rootW)
         		no->id = atoll(xmlGetProp(curr, "id"));
         		no->lat = atof(xmlGetProp(curr, "lat"));
         		no->longi = atof(xmlGetProp(curr, "lon"));
-        		no->visible = 1;
-
+                if(!strcmp(xmlGetProp(curr, "visible"), "true"))
+                {
+                    no->visible = 1;
+                }
+                else
+                {
+                    no->visible = 0;
+                }
         		//debugNode(no);
         		insertNode(no, rootN);
          	}
@@ -41,7 +47,14 @@ void parsetoabr(xmlNode* nodeX, tree_node* rootN, tree_way* rootW)
 
         		wa = malloc(sizeof(way));
         		wa->id = atoll(xmlGetProp(curr, "id"));
-        		wa->visible = 1;
+                if(!strcmp(xmlGetProp(curr, "visible"), "true"))
+                {
+                    wa->visible = 1;
+                }
+                else
+                {
+                    wa->visible = 0;
+                }
         		insertWay(wa, rootW);
 
         		xmlNode * nd = curr->xmlChildrenNode;
@@ -49,7 +62,7 @@ void parsetoabr(xmlNode* nodeX, tree_node* rootN, tree_way* rootW)
         		while(nd != NULL)
         		{
         			if (nd->type == XML_ELEMENT_NODE) {
-        				printf("%s \n",  nd->name);
+        				//printf("%s \n",  nd->name);
         				if(strcmp(nd->name, "nd") ==0)
         				{
     	    				n_tag++;
@@ -69,7 +82,7 @@ void parsetoabr(xmlNode* nodeX, tree_node* rootN, tree_way* rootW)
     	    				
     	    				wa->nodes[i] = getNodeById(atoll(xmlGetProp(nd, "ref")),rootN);
 	        				
-	        				printf("%s \n", xmlGetProp(nd, "ref"));
+	        				
 	        				i++;
 	        			}
 	        		}

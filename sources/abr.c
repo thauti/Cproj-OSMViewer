@@ -50,7 +50,7 @@ node* getNodeById(int64_t id, tree_node* root)
 {
 	 if(root->n->id == id)
 	 {
-	 	printf("-> Trouvé <-");
+	 //	printf("-> Trouvé <-\n");
 	 	return root->n;
 	 }
 	 else

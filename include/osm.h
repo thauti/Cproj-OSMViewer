@@ -2,6 +2,7 @@
 #include <stdio.h>
 
 
+
 typedef struct node_s
 {
 	int64_t id;
@@ -16,6 +17,7 @@ typedef struct way_s
 	node** nodes;
 	int nodes_size;
 	char type_way;
+	char* type_val;
 	char* nom;
 	char sensUnique;
 	char visible;
