@@ -1,0 +1,20 @@
+     1	CC = gcc
+     2	CFLAGS = `xml2-config --cflags` `xml2-config --libs` `pkg-config --cflags gtk+-3.0` `pkg-config --libs gtk+-3.0`
+     3	EXEC = osm
+     4	
+     5	all: $(EXEC)
+     6	osm: main.o abr.o parse.o 
+     7		$(CC) -o $@ $^ $(CFLAGS)
+     8	
+     9	abr.o: osm.h
+    10	parse.o: parse.h osm.h
+    11	main.o: parse.h osm.h
+    12	
+    13	%.o: %.c
+    14		$(CC) -o $@ -c $< $(CFLAGS)
+    15	
+    16	clean:
+    17		rm -rf *.o
+    18	
+    19	mrproper: clean
+    20		rm -rf $(EXEC)
