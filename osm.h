@@ -14,6 +14,7 @@ typedef struct way_s
 {
 	int64_t id;
 	node** nodes;
+	int nodes_size;
 	int carac;
 	char* nom;
 	char sensUnique;
