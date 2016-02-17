@@ -5,8 +5,8 @@
 #include <libxml/parser.h>
 #include <libxml/tree.h>
 
-#include "../headers/osm.h"
-#include "../headers/parse.h"
+#include "osm.h"
+#include "parse.h"
 
 void debugNode(node* n)
 {

@@ -2,8 +2,8 @@
 #include <stdlib.h>
 #include <gtk/gtk.h>
 
-#include "../headers/osm.h"
-#include "../headers/parse.h"
+#include "osm.h"
+#include "parse.h"
 
 void activate (GtkApplication* app,
           gpointer        user_data)

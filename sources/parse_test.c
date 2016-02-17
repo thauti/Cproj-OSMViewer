@@ -17,7 +17,7 @@ void print_element_names(xmlNode* node)
         print_element_names(curr->children);
 	}
 }
-
+/*
 int main(int argc, char* argv)
 {
 	LIBXML_TEST_VERSION
@@ -37,3 +37,4 @@ int main(int argc, char* argv)
 	printf("\n Fin \n");
 	return 0;
 }
+*/

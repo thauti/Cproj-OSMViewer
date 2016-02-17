@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include "../headers/osm.h"
+#include "osm.h"
 
 
 void insertNode(node* no, tree_node* root)

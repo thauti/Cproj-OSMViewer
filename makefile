@@ -1,2 +1,2 @@
 all: 
-	make -C -I ../headers/ ../sources/
+	make -C  sources/

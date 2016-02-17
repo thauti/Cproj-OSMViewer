@@ -1,25 +1,23 @@
-EXEC = osm
 CC = gcc
-CFLAGS = `xml2-config --cflags` `xml2-config --libs` `pkg-config --cflags gtk+-3.0` `pkg-config --libs gtk+-3.0`
-BDIR = $(binaries)
-ODIR = $(obj)
-HDIR = $(headers)
-HEAD = parse.h osm.h
-OBJL = abr.o parse.o main.o
-OBJ = $(patsubst %,$(ODIR)/%,$(OBJL))
-
+CFLAGS = -I ../include `xml2-config --cflags` `xml2-config --libs` `pkg-config --cflags gtk+-3.0` `pkg-config --libs gtk+-3.0`
 EXEC = osm
+HEADERS = parse.h osm.h
+OBJECTS = $(patsubst %.c, %.o, $(wildcard *.c))
 
-all: $(BDIR)/$(EXEC)
+all: $(EXEC)
+	mkdir -p ../bin/
+	cp osm ../bin/
+	rm *.o
+	rm osm
 
-osm: $(OBJL)
-	 $(CC) -o $@ $^ $(CFLAGS)
+$(EXEC): $(OBJECTS)
+	$(CC) $(CFLAGS) -o $@ $^
 
-%(ODIR)/%.o: %.c $(HEAD)
-	$(CC) -o $@ $< $(CFLAGS)
+%.o: %.c $(HEADERS)
+	$(CC) $(CFLAGS) -c $<
 
 clean:
-	rm -rf *.o
+	rm -f $(OBJECTS)
 
 mrproper: clean
-	rm -rf $(EXEC)
+	rm -f $(EXEC)
