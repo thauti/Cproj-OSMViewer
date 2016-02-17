@@ -24,8 +24,6 @@ int main(int argc, char* argv)
  app = gtk_application_new ("org.gtk.osm", G_APPLICATION_FLAGS_NONE);
   g_signal_connect (app, "activate", G_CALLBACK (activate), NULL);
 
-	  status = g_application_run (G_APPLICATION (app), argc, argv);
-	  g_object_unref (app);
 	tree_node* abr = malloc(sizeof(tree_node));
 	tree_way* abr3 = malloc(sizeof(tree_way));
 	
@@ -35,6 +33,8 @@ int main(int argc, char* argv)
 	}
 	printf("# %p <- \n",getNodeById(3257359455, abr));
 	printf("# %p <- \n",getWayById(4039117, abr3));
+	  status = g_application_run (G_APPLICATION (app), argc, argv);
+	  g_object_unref (app);
 
 	return 0;
 }
