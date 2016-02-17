@@ -5,10 +5,9 @@ HEADERS = parse.h osm.h
 OBJECTS = $(patsubst %.c, %.o, $(wildcard *.c))
 
 all: $(EXEC)
-	mkdir -p ../bin/
-	cp osm ../bin/
-	rm *.o
-	rm osm
+	mkdir -p ../bin/ ../bin/obj
+	mv osm ../bin/
+	mv *.o ../bin/obj
 
 $(EXEC): $(OBJECTS)
 	$(CC) $(CFLAGS) -o $@ $^
