@@ -1,7 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-
 typedef struct node_s
 {
 	int64_t id;
@@ -42,6 +41,13 @@ typedef struct bound_s
 	float maxlat;
 	float maxlon;
 }bound;
+
+typedef struct map_s
+{
+	tree_node* nodes;
+	tree_way* ways;
+	bound* bounds;
+}map;
 
 void insertNode(node* no, tree_node* root);
 node* getNodeById(int64_t id, tree_node* root);

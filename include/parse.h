@@ -5,5 +5,5 @@
 
 
 void debugNode(node* n);
-void parsetoabr(xmlNode* node, tree_node* rootN, tree_way* rootW);
-int parse(char* filename, tree_node* abrN, tree_way* abrW);
+void parsetoabr(xmlNode* nodeX, map* usermap);
+int parse(char* filename,map* usermap);

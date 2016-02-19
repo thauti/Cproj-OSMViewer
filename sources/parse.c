@@ -16,8 +16,15 @@ void debugNode(node* n)
 	printf("visible %d \n", n->visible);
 
 }
-void parsetoabr(xmlNode* nodeX, tree_node* rootN, tree_way* rootW)
+void parsetoabr(xmlNode* nodeX, map* usermap)
 {
+
+    usermap->nodes = malloc(sizeof(tree_node));
+    usermap->ways = malloc(sizeof(tree_way));
+    usermap->bounds  = malloc(sizeof(bound));
+    
+    tree_node* rootN = usermap->nodes;
+    tree_way* rootW = usermap->ways;
 
 	xmlNode* curr = nodeX->xmlChildrenNode;
 	node* no = malloc(sizeof(node));
@@ -29,10 +36,11 @@ void parsetoabr(xmlNode* nodeX, tree_node* rootN, tree_way* rootW)
 		if (curr->type == XML_ELEMENT_NODE) {
             if(strcmp(curr->name, "bounds") == 0)
             {
-                bo->minlat = atof(xmlGetProp(curr, "minlat"));
-                bo->maxlat = atof(xmlGetProp(curr, "maxlat"));
-                bo->maxlon = atof(xmlGetProp(curr, "maxlon"));
-                bo->minlon = atof(xmlGetProp(curr, "minlon"));
+                usermap->bounds->minlat = atof(xmlGetProp(curr, "minlat"));
+                usermap->bounds->maxlat = atof(xmlGetProp(curr, "maxlat"));
+                usermap->bounds->maxlon = atof(xmlGetProp(curr, "maxlon"));
+                usermap->bounds->minlon = atof(xmlGetProp(curr, "minlon"));
+
             }
 			 if(strcmp(curr->name, "node") == 0){
 
@@ -132,7 +140,7 @@ void parsetoabr(xmlNode* nodeX, tree_node* rootN, tree_way* rootW)
 	}*/
 }
 
-int parse(char* filename, tree_node* abrN, tree_way* abrW)
+int parse(char* filename,map* usermap)
 {
 	LIBXML_TEST_VERSION
 	xmlDocPtr doc;
@@ -143,7 +151,7 @@ int parse(char* filename, tree_node* abrN, tree_way* abrW)
 		return 1;
 	}
 	root_element = xmlDocGetRootElement(doc);
-	parsetoabr(root_element, abrN, abrW);
+	parsetoabr(root_element,usermap);
 
 	xmlFreeDoc(doc);
 	xmlCleanupParser();
