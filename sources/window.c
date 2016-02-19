@@ -11,17 +11,15 @@ gboolean dessiner(GtkWidget* widget, cairo_t *cr, gpointer data)
 
   	width = gtk_widget_get_allocated_width (widget);
   	height = gtk_widget_get_allocated_height (widget);
-  	cairo_arc (cr,
-             width / 2.0, height / 2.0,
-             MIN (width, height) / 2.0,
-             0, 2 * G_PI);
-
-  	gtk_style_context_get_color (gtk_widget_get_style_context (widget),
-                               0,
-                               &color);
-  	gdk_cairo_set_source_rgba (cr, &color);
-
+  	cairo_rectangle(cr, 20, 20, 120, 80);
+  	cairo_set_source_rgb(cr, 0.9, 0.9, 0.9);
   	cairo_fill (cr);
+  	static const double dashed3[] = {3};
+  	cairo_set_dash(cr, dashed3, 1, 0);
+	cairo_move_to(cr, 300, 70);  
+	cairo_line_to(cr, 500, 700);
+	cairo_set_source_rgb(cr, 0.0, 0.0, 0.0);
+	cairo_stroke(cr);  
   	return FALSE;
 }
 void exit_window(GtkWidget* widget, gpointer* data)

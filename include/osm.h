@@ -2,7 +2,6 @@
 #include <stdio.h>
 
 
-
 typedef struct node_s
 {
 	int64_t id;
@@ -35,6 +34,14 @@ typedef struct tree_node_s{
 	struct tree_node_s* n_gauche;
 	struct tree_node_s* n_droite;
 }tree_node;
+
+typedef struct bound_s
+{
+	float minlat;
+	float minlon;
+	float maxlat;
+	float maxlon;
+}bound;
 
 void insertNode(node* no, tree_node* root);
 node* getNodeById(int64_t id, tree_node* root);

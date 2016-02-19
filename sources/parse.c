@@ -22,10 +22,18 @@ void parsetoabr(xmlNode* nodeX, tree_node* rootN, tree_way* rootW)
 	xmlNode* curr = nodeX->xmlChildrenNode;
 	node* no = malloc(sizeof(node));
 	way* wa = malloc(sizeof(way));
+    bound* bo = malloc(sizeof(bound));
 	curr = curr->next;
 	while(curr != NULL)
 	{
 		if (curr->type == XML_ELEMENT_NODE) {
+            if(strcmp(curr->name, "bounds") == 0)
+            {
+                bo->minlat = atof(xmlGetProp(curr, "minlat"));
+                bo->maxlat = atof(xmlGetProp(curr, "maxlat"));
+                bo->maxlon = atof(xmlGetProp(curr, "maxlon"));
+                bo->minlon = atof(xmlGetProp(curr, "minlon"));
+            }
 			 if(strcmp(curr->name, "node") == 0){
 
         		no = malloc(sizeof(node));
