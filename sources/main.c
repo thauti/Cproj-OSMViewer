@@ -2,26 +2,26 @@
 #include <stdlib.h>
 #include <gtk/gtk.h>
 
+#include "osm.h"
 #include "window.h"
 
-#include "osm.h"
 #include "parse.h"
 
 
 int main(int argc, char** argv)
 {
 	GtkApplication *app;
+	map* usermap = malloc(sizeof(map));
 	int status;
 	printf("Ouverture de %s \n", argv[1]);
 
  	app = gtk_application_new ("org.gtk.osm", G_APPLICATION_FLAGS_NONE);
-  	g_signal_connect (app, "activate", G_CALLBACK (create_window), NULL);
+  	g_signal_connect (app, "activate", G_CALLBACK (create_window), usermap);
 
 	//tree_node* abr = malloc(sizeof(tree_node));
 	//tree_way* abr3 = malloc(sizeof(tree_way));
 	
 
-	map* usermap = malloc(sizeof(map));
 
 	if(parse(argv[1], usermap) != 0)
 	{

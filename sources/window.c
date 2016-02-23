@@ -2,32 +2,61 @@
 #include <stdlib.h>
 #include <gtk/gtk.h>
 #include <cairo.h>
+
 #include "osm.h"
 
-gboolean dessiner(GtkWidget* widget, cairo_t *cr, gpointer data)
+#include "window.h"
+
+void dessiner_abr(GtkWidget* widget, cairo_t *cr, tree_way* t, bound* b)
+{
+
+  //  g_print("%f \n", b->minlat);
+//    g_print("%f \n", b->minlon);
+
+    cairo_set_source_rgb(cr, 0.9, 0.9, 0.9);
+    int i =0;
+    if(t->w->visible){
+        for(i=0;i<t->w->nodes_size-2;i++)
+        {
+                //g_print(" -> %f \n", t->w->nodes[i+1]->lat - b->minlat);
+                cairo_set_source_rgb(cr, 0.0, 0.0, 0.0);
+                cairo_move_to(cr, (t->w->nodes[i]->lat - b->minlat)*80000+100, (t->w->nodes[i]->longi - b->minlon)*80000-20);  
+                cairo_line_to(cr, (t->w->nodes[i+1]->lat - b->minlat)*80000+100, (t->w->nodes[i+1]->longi - b->minlon)*80000-20);
+                cairo_stroke(cr);  
+        }
+    }
+    if(t->w_gauche != NULL)
+    {
+        dessiner_abr(widget,cr, t->w_gauche,b);
+    }
+    if(t->w_droite != NULL){
+        dessiner_abr(widget,cr, t->w_droite,b);
+    }
+    
+}
+gboolean dessiner(GtkWidget* widget, cairo_t *cr, map* map, gpointer data)
 {
 	guint width, height;
 	GdkRGBA color;
-
-  	width = gtk_widget_get_allocated_width (widget);
-  	height = gtk_widget_get_allocated_height (widget);
-  	cairo_rectangle(cr, 20, 20, 120, 80);
-  	cairo_set_source_rgb(cr, 0.9, 0.9, 0.9);
-  	cairo_fill (cr);
-  	static const double dashed3[] = {3};
-  	cairo_set_dash(cr, dashed3, 1, 0);
+    width = gtk_widget_get_allocated_width (widget);
+    height = gtk_widget_get_allocated_height (widget);
+    //static const double dashed3[] = {1};
+   // cairo_set_dash(cr, dashed3, 1, 0);
+    dessiner_abr(widget,cr, map->ways, map->bounds);
+   /* cairo_set_source_rgb(cr, 0.9, 0.9, 0.9);
+    cairo_fill (cr);
 	cairo_move_to(cr, 300, 70);  
-	cairo_line_to(cr, 500, 700);
+	cairo_line_to(cr, 500, 70);
 	cairo_set_source_rgb(cr, 0.0, 0.0, 0.0);
 	cairo_stroke(cr);  
-  	return FALSE;
+  */	return FALSE;
 }
 void exit_window(GtkWidget* widget, gpointer* data)
 {
 	gtk_window_close(GTK_WINDOW(data));
 
 }
-void create_window(GtkApplication* app, gpointer user_data)
+void create_window(GtkApplication* app, map* user_map, gpointer user_data)
 {
  	GtkWidget *window;
  	
@@ -52,7 +81,9 @@ void create_window(GtkApplication* app, gpointer user_data)
   	gtk_window_set_position (GTK_WINDOW (window), GTK_WIN_POS_CENTER);
 
 
- 	menu_bar = gtk_menu_bar_new();
+ 	  g_print("%p \n", user_map->bounds);
+
+    menu_bar = gtk_menu_bar_new();
 
     filemenu = gtk_menu_new();
     file = gtk_menu_item_new_with_label("Fichier");
@@ -64,7 +95,7 @@ void create_window(GtkApplication* app, gpointer user_data)
     gtk_menu_shell_append(GTK_MENU_SHELL(filemenu), quit);
     gtk_menu_shell_append(GTK_MENU_SHELL(menu_bar), file);
 
- 	g_signal_connect (G_OBJECT (draw_area), "draw",G_CALLBACK (dessiner), NULL);
+ 	  g_signal_connect (G_OBJECT (draw_area), "draw",G_CALLBACK (dessiner), user_map);
     g_signal_connect (G_OBJECT (quit),"activate", G_CALLBACK (exit_window),window);
     box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
     gtk_box_pack_start(GTK_BOX(box), menu_bar, FALSE, FALSE, 0);
