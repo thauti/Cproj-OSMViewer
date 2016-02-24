@@ -10,7 +10,7 @@ all: $(EXEC)
 	mv *.o ../bin/obj
 
 $(EXEC): $(OBJECTS)
-	$(CC) $(CFLAGS) -o $@ $^
+	$(CC) -o $@ $(CFLAGS) $^
 
 %.o: %.c $(HEADERS)
 	$(CC) $(CFLAGS) -c $<
