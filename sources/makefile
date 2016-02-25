@@ -10,15 +10,8 @@ all: $(EXEC)
 	mv *.o ../bin/obj
 
 $(EXEC): $(OBJECTS)
-<<<<<<< HEAD
-<<<<<<< HEAD
 	$(CC) $(CFLAGS) -o $@ $^ -lxml2 -lgtk-3 -lcairo -lgio-2.0 -lgobject-2.0 -lglib-2.0
-=======
-	$(CC) -o $@ $(CFLAGS) $^
->>>>>>> cab08f10c9ea799d4e7a9c36b28081d6004b1e56
-=======
-	$(CC) -o $@ $(CFLAGS) $^
->>>>>>> cab08f10c9ea799d4e7a9c36b28081d6004b1e56
+
 
 %.o: %.c $(HEADERS)
 	$(CC) $(CFLAGS) -c $<
