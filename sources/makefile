@@ -10,7 +10,7 @@ all: $(EXEC)
 	mv *.o ../bin/obj
 
 $(EXEC): $(OBJECTS)
-	$(CC) $(CFLAGS) -o $@ $^
+	$(CC) $(CFLAGS) -o $@ $^ -lxml2 -lgtk-3 -lcairo -lgio-2.0 -lgobject-2.0 -lglib-2.0
 
 %.o: %.c $(HEADERS)
 	$(CC) $(CFLAGS) -c $<
