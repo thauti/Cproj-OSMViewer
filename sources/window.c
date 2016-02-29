@@ -16,14 +16,19 @@ void dessiner_abr(GtkWidget* widget, cairo_t *cr, tree_way* t, bound* b)
     cairo_set_source_rgb(cr, 0.9, 0.9, 0.9);
     int i =0;
     if(t->w->visible){
-        for(i=0;i<t->w->nodes_size-2;i++)
+        cairo_set_source_rgb(cr, 0.0, 0.0, 0.0);
+        for(i=0;i<t->w->nodes_size-1;i++)
         {
                 //g_print(" -> %f \n", t->w->nodes[i+1]->lat - b->minlat);
-                cairo_set_source_rgb(cr, 0.0, 0.0, 0.0);
-                cairo_move_to(cr, (t->w->nodes[i]->lat - b->minlat)*80000+100, (t->w->nodes[i]->longi - b->minlon)*80000-20);  
-                cairo_line_to(cr, (t->w->nodes[i+1]->lat - b->minlat)*80000+100, (t->w->nodes[i+1]->longi - b->minlon)*80000-20);
-                cairo_stroke(cr);  
+                cairo_line_to(cr, (t->w->nodes[i]->lat - b->minlat)*80000+100, (t->w->nodes[i]->longi - b->minlon)*80000-20);
         }
+        if(t->w->nodes[t->w->nodes_size-2] == t->w->nodes[0]){
+               // g_print("%d", t->w->type_way);
+                cairo_close_path(cr);
+                cairo_set_source_rgb(cr,0.88,0.87,0.82);
+                cairo_fill(cr);
+            }
+                cairo_stroke(cr);  
     }
     if(t->w_gauche != NULL)
     {
@@ -74,10 +79,11 @@ void create_window(GtkApplication* app, map* user_map, gpointer user_data)
     //     ->Menu
  	window = gtk_application_window_new (app);
  	draw_area = gtk_drawing_area_new();
- 	gtk_widget_set_size_request(draw_area, 640,480);
-  	
+ 	gtk_widget_set_size_request(draw_area, 800,600);
+  	gint height,width;
+    gtk_window_get_size(GTK_WINDOW(window), &width, &height);
   	gtk_window_set_title (GTK_WINDOW (window), "OpenStreetMap Renderer");
-  	gtk_window_set_default_size (GTK_WINDOW (window), 640, 480);
+  	gtk_window_set_default_size (GTK_WINDOW (window), width, height);
   	gtk_window_set_position (GTK_WINDOW (window), GTK_WIN_POS_CENTER);
 
 

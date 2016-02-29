@@ -88,6 +88,11 @@ void parsetoabr(xmlNode* nodeX, map* usermap)
         				{
     	    				n_tag++;
 	        			}
+                        if(xmlStrcmp(nd->name, xmlCharStrdup("tag"))== 0)
+                        {
+                            char* prop = (char*)xmlGetProp(nd, xmlCharStrdup("k"));
+                            char* prop_value = (char*)xmlGetProp(nd, xmlCharStrdup("v"));
+                        }
         			}
         			nd = nd->next;
         		}
