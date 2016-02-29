@@ -20,12 +20,16 @@ void parsetoabr(xmlNode* nodeX, map* usermap)
 {
 
     usermap->nodes = malloc(sizeof(tree_node));
+    usermap->nodes->n_gauche = NULL;
+    usermap->nodes->n_droite = NULL;
     usermap->ways = malloc(sizeof(tree_way));
+    usermap->ways->w_gauche = NULL;
+    usermap->ways->w_droite = NULL;
     usermap->bounds  = malloc(sizeof(bound));
-    
+    /*
     tree_node* rootN = usermap->nodes;
     tree_way* rootW = usermap->ways;
-
+    */
     xmlNode* curr = nodeX->xmlChildrenNode;
     node* no = malloc(sizeof(node));
     way* wa = malloc(sizeof(way));
@@ -57,7 +61,7 @@ void parsetoabr(xmlNode* nodeX, map* usermap)
                     no->visible = 0;
                 }
         		//debugNode(no);
-        		insertNode(no, rootN);
+        		insertNode(no, usermap->nodes);
          	}
          	if(xmlStrcmp(curr->name, xmlCharStrdup("way")) == 0){
 
@@ -72,7 +76,7 @@ void parsetoabr(xmlNode* nodeX, map* usermap)
                 {
                     wa->visible = 0;
                 }
-        		insertWay(wa, rootW);
+        		insertWay(wa, usermap->ways);
 
         		xmlNode * nd = curr->xmlChildrenNode;
         		int n_tag = 0;
@@ -97,7 +101,7 @@ void parsetoabr(xmlNode* nodeX, map* usermap)
         				if(xmlStrcmp(nd->name, xmlCharStrdup("nd")) == 0)
         				{
     	    				
-    	    				wa->nodes[i] = getNodeById(atoll((char*)xmlGetProp(nd, xmlCharStrdup("ref"))),rootN);
+    	    				wa->nodes[i] = getNodeById(atoll((char*)xmlGetProp(nd, xmlCharStrdup("ref"))),usermap->nodes);
 	        				
 	        				
 	        				i++;
