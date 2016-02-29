@@ -18,7 +18,6 @@ void debugNode(node* n)
 }
 void parsetoabr(xmlNode* nodeX, map* usermap)
 {
-                printf("Erreur 1");
 
     usermap->nodes = malloc(sizeof(tree_node));
     usermap->ways = malloc(sizeof(tree_way));
@@ -49,7 +48,6 @@ void parsetoabr(xmlNode* nodeX, map* usermap)
         		no->id = atoll((char*)xmlGetProp(curr, xmlCharStrdup("id")));
         		no->lat = atof((char*)xmlGetProp(curr, xmlCharStrdup("lat")));
         		no->longi = atof((char*)xmlGetProp(curr, xmlCharStrdup("lon")));
-                 printf("Erreur 2");
                 if(!xmlStrcmp(xmlGetProp(curr, xmlCharStrdup("visible")), xmlCharStrdup("true")))
                 {
                     no->visible = 1;
