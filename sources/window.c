@@ -2,10 +2,13 @@
 #include <stdlib.h>
 #include <gtk/gtk.h>
 #include <cairo.h>
-
+#include <math.h>
 #include "osm.h"
 
 #include "window.h"
+
+#define PI 3.14159265358979323846
+#define DEG2RAD(DEG) ((DEG)*((PI)/(180.0)))
 
 void dessiner_abr(GtkWidget* widget, cairo_t *cr, tree_way* t, bound* b)
 {
@@ -18,10 +21,25 @@ void dessiner_abr(GtkWidget* widget, cairo_t *cr, tree_way* t, bound* b)
         cairo_set_source_rgb(cr, 0.0, 0.0, 0.0);
         for(i=0;i<t->w->nodes_size-1;i++)
         {
+            if(t->w->type_way != 0 && t->w->type_val != 0){
                 //g_print(" -> %f \n", t->w->nodes[i+1]->lat - b->minlat);
                 if(t->w->visible == 1 ){
-                cairo_line_to(cr, (t->w->nodes[i]->lat - b->minlat)*80000+100, (t->w->nodes[i]->longi - b->minlon)*80000-20);
+                    //cairo_line_to(cr, (t->w->nodes[i]->lat - b->minlat)*80000+100, (t->w->nodes[i]->longi - b->minlon)*80000-20);
+                    float ratio = 800 / (PI*2);
+                    float zoom = 2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2;
+                    float x = 800*((t->w->nodes[i]->longi+180)/360)*zoom;
+                    float y = 600/2-log(tan((PI/4)+ DEG2RAD(t->w->nodes[i]->lat)/2))*ratio*zoom;
+
+                    float x_min = 800*((b->minlon+180)/360)*zoom;
+                    float y_min = 600/2-log(tan((PI/4)+ DEG2RAD(b->minlat)/2))*ratio*zoom;
+                    g_print(" X : %f \n", x_min);
+                    g_print(" Y : %f \n", y_min);
+                    
+                    cairo_line_to(cr,x-x_min-100,y-y_min+550);
+                
+
                 }
+            }
         }
         if(t->w->nodes[t->w->nodes_size-2] == t->w->nodes[0]){
                // g_print("%d", t->w->type_way);
@@ -34,6 +52,9 @@ void dessiner_abr(GtkWidget* widget, cairo_t *cr, tree_way* t, bound* b)
                         break;
                     case 1:
                         cairo_set_source_rgb(cr,0.88,0.87,0.82);
+                        break;
+                    case 2:
+                        cairo_set_source_rgb(cr,0.1,0.1,0.1);
                         break;
                     case 3:
                         if(t->w->type_val == 3){
@@ -56,6 +77,9 @@ void dessiner_abr(GtkWidget* widget, cairo_t *cr, tree_way* t, bound* b)
                         {
                             cairo_set_source_rgb(cr,0.6,0.7,0.8);
                         }
+                        break;
+                    case 5:
+                        cairo_set_source_rgb(cr,0.6,0.7,0.8);
                         break;
                 }
                 if(t->w->type_way != 0)

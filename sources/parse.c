@@ -105,7 +105,37 @@ void parsetoabr(xmlNode* nodeX, map* usermap)
                                 }
 
                             }
+                            if(strcmp(prop, "highway") == 0) // TODO
+                            {
+                                wa->type_way = 2;
+                                if(strcmp(prop_value, "residential") == 0)
+                                {
+                                    wa->type_val = 7;
+                                }
+                                else if(strcmp(prop_value, "unclassified") == 0)
+                                {
+                                    wa->type_val = 8;
+                                }
+                                else if(strcmp(prop_value, "primary") == 0)
+                                {
+                                    wa->type_val = 9;
+                                }
+                                else if(strcmp(prop_value, "secondary") == 0)
+                                {
+                                    wa->type_val = 10;
+                                }
+                                else
+                                {
+                                    wa->type_val = 0;
+                                }
 
+                            }
+                             if(strcmp(prop, "waterway") == 0) // TODO
+                            {
+                                wa->type_way = 5;
+                                wa->type_val = 99;
+
+                            }
                             if(strcmp(prop, "landuse") == 0)
                             {
                                 wa->type_way = 3;
