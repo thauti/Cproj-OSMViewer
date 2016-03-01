@@ -14,8 +14,8 @@ typedef struct way_s
 	int64_t id;
 	node** nodes;
 	int nodes_size;
-	char type_way; // 0: inconnue 1: Building 2: Route/highway
-	char* type_val; // 0:Inconnu 1:yes 2:no
+	char type_way; // 0: inconnue 1: Building 2: Route/highway 3: Landuse(Jardin) 4: Leisure 
+	char type_val; // 0:Inconnu 1:yes 2:no 3:bassin(landuse) 4:grass/garden 5:park 6:railways
 	char* nom;
 	char sensUnique;
 	char visible;

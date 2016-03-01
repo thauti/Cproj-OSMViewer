@@ -92,6 +92,50 @@ void parsetoabr(xmlNode* nodeX, map* usermap)
                         {
                             char* prop = (char*)xmlGetProp(nd, xmlCharStrdup("k"));
                             char* prop_value = (char*)xmlGetProp(nd, xmlCharStrdup("v"));
+                            if(strcmp(prop, "building") == 0)
+                            {
+                                wa->type_way = 1;
+                                if(strcmp(prop_value, "yes") == 0)
+                                {
+                                    wa->type_val = 1;
+                                }
+                                else
+                                {
+                                    wa->type_val = 0;
+                                }
+
+                            }
+
+                            if(strcmp(prop, "landuse") == 0)
+                            {
+                                wa->type_way = 3;
+                                if(strcmp(prop_value, "basin") == 0)
+                                {
+                                    wa->type_val = 3;
+                                }
+                                else if(strcmp(prop_value, "railways") == 0 || strcmp(prop_value, "construction") == 0)
+                                {
+                                    wa->type_val = 6;
+                                }
+                                else
+                                {
+                                    wa->type_val = 4;
+                                }
+
+                            }
+                            if(strcmp(prop, "leisure") == 0)
+                            {
+                                wa->type_way = 4;
+                                if(strcmp(prop_value, "park") == 0)
+                                {
+                                    wa->type_val = 5;
+                                }
+                                else
+                                {
+                                    wa->type_val = 5;
+                                }
+
+                            }
                         }
         			}
         			nd = nd->next;

@@ -13,22 +13,57 @@ void dessiner_abr(GtkWidget* widget, cairo_t *cr, tree_way* t, bound* b)
   //  g_print("%f \n", b->minlat);
 //    g_print("%f \n", b->minlon);
 
-    cairo_set_source_rgb(cr, 0.9, 0.9, 0.9);
     int i =0;
     if(t->w->visible){
         cairo_set_source_rgb(cr, 0.0, 0.0, 0.0);
         for(i=0;i<t->w->nodes_size-1;i++)
         {
                 //g_print(" -> %f \n", t->w->nodes[i+1]->lat - b->minlat);
+                if(t->w->visible == 1 ){
                 cairo_line_to(cr, (t->w->nodes[i]->lat - b->minlat)*80000+100, (t->w->nodes[i]->longi - b->minlon)*80000-20);
+                }
         }
         if(t->w->nodes[t->w->nodes_size-2] == t->w->nodes[0]){
                // g_print("%d", t->w->type_way);
                 cairo_close_path(cr);
-                cairo_set_source_rgb(cr,0.88,0.87,0.82);
-                cairo_fill(cr);
+
+                switch(t->w->type_way)
+                {
+                    case 0:
+                        cairo_set_source_rgb(cr,0.0,0.0,0.0);
+                        break;
+                    case 1:
+                        cairo_set_source_rgb(cr,0.88,0.87,0.82);
+                        break;
+                    case 3:
+                        if(t->w->type_val == 3){
+                            cairo_set_source_rgb(cr,0.6,0.7,0.8);
+                        }
+                        if(t->w->type_val == 4)
+                        {
+                            cairo_set_source_rgb(cr,0.73,0.82,0.49);
+                        }
+                        else
+                        {
+                            cairo_set_source_rgb(cr,0.88,0.87,0.82);
+  
+                        }
+                        break;
+                    case 4:
+                        if(t->w->type_val == 5){
+                            cairo_set_source_rgb(cr,0.73,0.82,0.49);
+                        }else
+                        {
+                            cairo_set_source_rgb(cr,0.6,0.7,0.8);
+                        }
+                        break;
+                }
+                if(t->w->type_way != 0)
+                {
+                    cairo_fill(cr);
+                }
             }
-                cairo_stroke(cr);  
+                cairo_stroke(cr);
     }
     if(t->w_gauche != NULL)
     {
@@ -79,13 +114,12 @@ void create_window(GtkApplication* app, map* user_map, gpointer user_data)
     //     ->Menu
  	window = gtk_application_window_new (app);
  	draw_area = gtk_drawing_area_new();
- 	gtk_widget_set_size_request(draw_area, 800,600);
-  	gint height,width;
+    gtk_widget_set_size_request(draw_area, 800,600);
+    gint height,width;
     gtk_window_get_size(GTK_WINDOW(window), &width, &height);
-  	gtk_window_set_title (GTK_WINDOW (window), "OpenStreetMap Renderer");
-  	gtk_window_set_default_size (GTK_WINDOW (window), width, height);
-  	gtk_window_set_position (GTK_WINDOW (window), GTK_WIN_POS_CENTER);
-
+    gtk_window_set_title (GTK_WINDOW (window), "OpenStreetMap Renderer");
+    gtk_window_set_default_size (GTK_WINDOW (window), width, height);
+    gtk_window_set_position (GTK_WINDOW (window), GTK_WIN_POS_CENTER);
 
  	  g_print("%p \n", user_map->bounds);
 
@@ -103,7 +137,7 @@ void create_window(GtkApplication* app, map* user_map, gpointer user_data)
 
  	  g_signal_connect (G_OBJECT (draw_area), "draw",G_CALLBACK (dessiner), user_map);
     g_signal_connect (G_OBJECT (quit),"activate", G_CALLBACK (exit_window),window);
-    box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
+    box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
     gtk_box_pack_start(GTK_BOX(box), menu_bar, FALSE, FALSE, 0);
     gtk_container_add(GTK_CONTAINER(window), box);
     gtk_container_add(GTK_CONTAINER(box), draw_area);
