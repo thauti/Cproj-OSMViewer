@@ -32,10 +32,17 @@ void dessiner_abr(GtkWidget* widget, cairo_t *cr, tree_way* t, bound* b)
 
                     float x_min = 800*((b->minlon+180)/360)*zoom;
                     float y_min = 600/2-log(tan((PI/4)+ DEG2RAD(b->minlat)/2))*ratio*zoom;
+
+                    float x_max = 800*((b->maxlon+180)/360)*zoom;
+                    float y_max = 600/2-log(tan((PI/4)+ DEG2RAD(b->maxlat)/2))*ratio*zoom;
+
                     g_print(" X : %f \n", x_min);
                     g_print(" Y : %f \n", y_min);
                     
-                    cairo_line_to(cr,x-x_min-100,y-y_min+550);
+                    g_print(" Xm : %f \n", x_max);
+                    g_print(" Ym : %f \n", y_max);
+
+                    cairo_line_to(cr,x-x_min,y-y_min+600);
                 
 
                 }

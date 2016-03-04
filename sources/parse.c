@@ -104,22 +104,22 @@ void parsetoabr(xmlNode* nodeX, map* usermap)
                                 }
 
                             }
-                            if(strcmp(prop, "highway") == 0) // TODO
+                            if(xmlStrcmp(prop, xmlCharStrdup("highway")) == 0) // TODO
                             {
                                 wa->type_way = 2;
-                                if(strcmp(prop_value, "residential") == 0)
+                                if(xmlStrcmp(prop_value, xmlCharStrdup("residential")) == 0)
                                 {
                                     wa->type_val = 7;
                                 }
-                                else if(strcmp(prop_value, "unclassified") == 0)
+                                else if(xmlStrcmp(prop_value,  xmlCharStrdup("unclassified")) == 0)
                                 {
                                     wa->type_val = 8;
                                 }
-                                else if(strcmp(prop_value, "primary") == 0)
+                                else if(xmlStrcmp(prop_value,  xmlCharStrdup("primary")) == 0)
                                 {
                                     wa->type_val = 9;
                                 }
-                                else if(strcmp(prop_value, "secondary") == 0)
+                                else if(xmlStrcmp(prop_value,  xmlCharStrdup("secondary")) == 0)
                                 {
                                     wa->type_val = 10;
                                 }
@@ -129,20 +129,20 @@ void parsetoabr(xmlNode* nodeX, map* usermap)
                                 }
 
                             }
-                             if(strcmp(prop, "waterway") == 0) // TODO
+                             if(xmlStrcmp(prop,  xmlCharStrdup("waterway")) == 0) // TODO
                             {
                                 wa->type_way = 5;
                                 wa->type_val = 99;
 
                             }
-                            if(strcmp(prop, "landuse") == 0)
+                            if(xmlStrcmp(prop,  xmlCharStrdup("landuse")) == 0)
                             {
                                 wa->type_way = 3;
-                                if(strcmp(prop_value, "basin") == 0)
+                                if(xmlStrcmp(prop_value,  xmlCharStrdup("basin")) == 0)
                                 {
                                     wa->type_val = 3;
                                 }
-                                else if(strcmp(prop_value, "railways") == 0 || strcmp(prop_value, "construction") == 0)
+                                else if(xmlStrcmp(prop_value,  xmlCharStrdup("railways")) == 0 || xmlStrcmp(prop_value,  xmlCharStrdup("construction")) == 0)
                                 {
                                     wa->type_val = 6;
                                 }
@@ -152,10 +152,10 @@ void parsetoabr(xmlNode* nodeX, map* usermap)
                                 }
 
                             }
-                            if(strcmp(prop, "leisure") == 0)
+                            if(xmlStrcmp(prop,  xmlCharStrdup("leisure")) == 0)
                             {
                                 wa->type_way = 4;
-                                if(strcmp(prop_value, "park") == 0)
+                                if(xmlStrcmp(prop_value,  xmlCharStrdup("park")) == 0)
                                 {
                                     wa->type_val = 5;
                                 }
