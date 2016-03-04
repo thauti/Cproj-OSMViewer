@@ -66,7 +66,6 @@ void parsetoabr(xmlNode* nodeX, map* usermap)
          	if(xmlStrcmp(curr->name, xmlCharStrdup("way")) == 0){
 
         		wa = malloc(sizeof(way));
-                wa->id = malloc(sizeof(int64_t));
         		wa->id = atoll((char*)xmlGetProp(curr, xmlCharStrdup("id")));
                 if(!xmlStrcmp(xmlGetProp(curr, xmlCharStrdup("visible")), xmlCharStrdup("true")))
                 {
