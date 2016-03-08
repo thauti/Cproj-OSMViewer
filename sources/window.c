@@ -18,7 +18,17 @@ void dessiner_abr(GtkWidget* widget, cairo_t *cr, tree_way* t, bound* b)
 
     int i =0;
     if(t->w->visible){
-        cairo_set_source_rgb(cr, 0.0, 0.0, 0.0);
+        if(t->w->type_way == 1)
+        {
+                        cairo_set_line_width(cr, 2);  
+
+            cairo_set_source_rgb(cr,0.82,0.81,0.76);
+
+
+        }else{
+            cairo_set_line_width(cr, 4);  
+            cairo_set_source_rgb(cr, 1.0, 1.0, 1.0);
+        }
         for(i=0;i<t->w->nodes_size-1;i++)
         {
             if(t->w->type_way != 0 && t->w->type_val != 0){
@@ -36,29 +46,27 @@ void dessiner_abr(GtkWidget* widget, cairo_t *cr, tree_way* t, bound* b)
                     float x_max = 800*((b->maxlon+180)/360)*zoom;
                     float y_max = 600/2-log(tan((PI/4)+ DEG2RAD(b->maxlat)/2))*ratio*zoom;
 
-                    g_print(" X : %f \n", x_min);
-                    g_print(" Y : %f \n", y_min);
+                   // g_print(" X : %f \n", x_min);
+                    //g_print(" Y : %f \n", y_min);
                     
-                    g_print(" Xm : %f \n", x_max);
-                    g_print(" Ym : %f \n", y_max);
+                   // g_print(" Xm : %f \n", x_max);
+                    //g_print(" Ym : %f \n", y_max);
 
                     cairo_line_to(cr,x-x_min,y-y_min+600);
-                
-
                 }
             }
         }
         if(t->w->nodes[t->w->nodes_size-2] == t->w->nodes[0]){
                // g_print("%d", t->w->type_way);
                 cairo_close_path(cr);
-
+                cairo_stroke_preserve(cr);
                 switch(t->w->type_way)
                 {
                     case 0:
                         cairo_set_source_rgb(cr,0.0,0.0,0.0);
                         break;
                     case 1:
-                        cairo_set_source_rgb(cr,0.88,0.87,0.82);
+                        cairo_set_source_rgb(cr,0.87,0.86,0.81);
                         break;
                     case 2:
                         cairo_set_source_rgb(cr,0.1,0.1,0.1);
