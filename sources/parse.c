@@ -123,6 +123,10 @@ void parsetoabr(xmlNode* nodeX, map* usermap)
                                 {
                                     wa->type_val = 10;
                                 }
+                                else if(xmlStrcmp(prop_value,  xmlCharStrdup("pedestrian")) == 0)
+                                {
+                                    wa->type_val = 11;
+                                }
                                 else
                                 {
                                     wa->type_val = 0;

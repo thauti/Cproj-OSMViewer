@@ -20,14 +20,23 @@ void dessiner_abr(GtkWidget* widget, cairo_t *cr, tree_way* t, bound* b)
     if(t->w->visible){
         if(t->w->type_way == 1)
         {
-                        cairo_set_line_width(cr, 2);  
+            cairo_set_line_width(cr, 2);  
 
-            cairo_set_source_rgb(cr,0.82,0.81,0.76);
+            cairo_set_source_rgb(cr,0.72,0.71,0.66);
 
-
-        }else{
+        }else if(t->w->type_way == 2){
             cairo_set_line_width(cr, 4);  
-            cairo_set_source_rgb(cr, 1.0, 1.0, 1.0);
+            cairo_set_source_rgb(cr, 0.8, 0.8, 0.8);
+        }
+        else if(t->w->type_way == 5)
+        {
+            cairo_set_line_width(cr, 1);  
+           cairo_set_source_rgb(cr,0.6,0.7,0.8);
+        }
+        else
+        {
+            cairo_set_line_width(cr, 1);  
+            cairo_set_source_rgb(cr, 0.55, 0.55, 0.55);
         }
         for(i=0;i<t->w->nodes_size-1;i++)
         {
@@ -66,16 +75,16 @@ void dessiner_abr(GtkWidget* widget, cairo_t *cr, tree_way* t, bound* b)
                         cairo_set_source_rgb(cr,0.0,0.0,0.0);
                         break;
                     case 1:
-                        cairo_set_source_rgb(cr,0.87,0.86,0.81);
+                        cairo_set_source_rgb(cr,0.82,0.81,0.76);
                         break;
                     case 2:
-                        cairo_set_source_rgb(cr,0.1,0.1,0.1);
+                        cairo_set_source_rgb(cr,0.90,0.88,0.88);
                         break;
                     case 3:
                         if(t->w->type_val == 3){
                             cairo_set_source_rgb(cr,0.6,0.7,0.8);
                         }
-                        if(t->w->type_val == 4)
+                        else if(t->w->type_val == 4)
                         {
                             cairo_set_source_rgb(cr,0.73,0.82,0.49);
                         }
