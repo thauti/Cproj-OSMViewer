@@ -150,6 +150,11 @@ void parsetoabr(xmlNode* nodeX, map* usermap)
                                 {
                                     wa->type_val = 6;
                                 }
+                                else if(xmlStrcmp(prop_value,  xmlCharStrdup("residential")) == 0)
+                                {
+                                    wa->type_val = 7;
+
+                                }
                                 else
                                 {
                                     wa->type_val = 4;

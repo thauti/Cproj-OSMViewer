@@ -88,6 +88,11 @@ void dessiner_abr(GtkWidget* widget, cairo_t *cr, tree_way* t, bound* b)
                         {
                             cairo_set_source_rgb(cr,0.73,0.82,0.49);
                         }
+                        else if(t->w->type_val == 7)
+                        {
+                        cairo_set_source_rgb(cr,0.90,0.88,0.88);
+
+                        }
                         else
                         {
                             cairo_set_source_rgb(cr,0.88,0.87,0.82);
