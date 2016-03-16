@@ -105,6 +105,9 @@ void dessiner_abr(GtkWidget* widget, cairo_t *cr, tree_way* t, bound* b)
                     case 5:
                         cairo_set_source_rgb(cr,0.6,0.7,0.8);
                         break;
+                    case 6:
+                        cairo_set_source_rgb(cr,0.6,0.7,0.8);
+                        break;
                 }
                 if(t->w->type_way != 0)
                 {

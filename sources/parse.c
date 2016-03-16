@@ -169,6 +169,19 @@ void parsetoabr(xmlNode* nodeX, map* usermap)
                                 }
 
                             }
+                            if(strcmp(prop, "amenity") == 0)
+                            {
+                                wa->type_way = 6;
+                                if(strcmp(prop_value, "fountain") == 0)
+                                {
+                                    wa->type_val = 12;
+                                }
+                                else
+                                {
+                                    wa->type_val = 0;
+                                }
+
+                            }
                         }
         			}
         			nd = nd->next;
