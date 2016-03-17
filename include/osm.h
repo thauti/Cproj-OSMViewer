@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
-
+#include <glib.h>
 typedef struct node_s
 {
 	int64_t id;
@@ -46,6 +46,7 @@ typedef struct bound_s
 
 typedef struct map_s
 {
+	GHashTable*  hashnode;
 	tree_node* nodes;
 	tree_way* ways;
 	bound* bounds;

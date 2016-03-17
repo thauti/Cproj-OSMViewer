@@ -4,6 +4,7 @@
 
 #include <libxml/parser.h>
 #include <libxml/tree.h>
+#include <glib.h>
 
 #include "osm.h"
 #include "parse.h"
@@ -26,6 +27,7 @@ void parsetoabr(xmlNode* nodeX, map* usermap)
     usermap->ways->w_gauche = NULL;
     usermap->ways->w_droite = NULL;
     usermap->bounds  = malloc(sizeof(bound));
+    usermap->hashnode = g_hash_table_new(g_int64_hash, g_int64_equal);
     /*
     tree_node* rootN = usermap->nodes;
     tree_way* rootW = usermap->ways;
@@ -61,8 +63,9 @@ void parsetoabr(xmlNode* nodeX, map* usermap)
                     no->visible = 0;
                 }
         		//debugNode(no);
-        		insertNode(no, usermap->nodes);
-         	}
+        		//insertNode(no, usermap->nodes);
+         	    g_hash_table_insert(usermap->hashnode, (gpointer)&no->id,(gpointer)no);
+            }
          	if(xmlStrcmp(curr->name, xmlCharStrdup("way")) == 0){
 
         		wa = malloc(sizeof(way));
@@ -201,8 +204,10 @@ void parsetoabr(xmlNode* nodeX, map* usermap)
         				if(xmlStrcmp(nd->name, xmlCharStrdup("nd")) == 0)
         				{
     	    				
-	        				wa->nodes[i] = getNodeById(atoll(xmlCharStrdup(xmlGetProp(nd, xmlCharStrdup("ref")))),usermap->nodes);
-
+	        				//wa->nodes[i] = getNodeById(atoll(xmlCharStrdup(xmlGetProp(nd, xmlCharStrdup("ref")))),usermap->nodes);
+                            int64_t *id = malloc(sizeof(int64_t));
+                            *id =  atoll(xmlCharStrdup(xmlGetProp(nd, xmlCharStrdup("ref"))));
+                            wa->nodes[i] = g_hash_table_lookup(usermap->hashnode, (gpointer) id);
 	        				
 	        				i++;
 	        			}
