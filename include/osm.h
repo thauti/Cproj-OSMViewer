@@ -52,7 +52,28 @@ typedef struct map_s
 	bound* bounds;
 }map;
 
+typedef struct way_nodraw_s
+{
+	int64_t way;
+	struct way_nodraw_s* next;
+}ways_nodraw;
+
+typedef struct relation_s
+{
+	short type; // 0 : MultiPolygon
+	way* ways;
+	short* w_type;
+	int size;
+}relation;
+
+typedef struct relationlist_s
+{
+	struct relation_s* curr;
+	struct relationlist_s* next;
+}relationlist;
+
 void insertNode(node* no, tree_node* root);
 node* getNodeById(int64_t id, tree_node* root);
 void insertWay(way* no, tree_way* root);
 way* getWayById(int64_t id, tree_way* root);
+void addListRelation(relation* r, relationlist* rl);

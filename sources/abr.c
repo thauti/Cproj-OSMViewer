@@ -139,3 +139,14 @@ way* getWayById(int64_t id, tree_way* root)
 	 	}
 	 }
 }
+void addListRelation(relation* r, relationlist* rl)
+{
+	if(rl->curr == NULL)
+	{
+		rl->curr = r;
+	}
+	else
+	{
+		addListRelation(r, rl->next);
+	}
+}

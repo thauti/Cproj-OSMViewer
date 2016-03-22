@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -I ../include `xml2-config --cflags` `xml2-config --libs` `pkg-config --cflags gtk+-3.0` `pkg-config --libs gtk+-3.0 ``pkg-config --cflags --libs glib-2.0`
+CFLAGS = -I ../include `xml2-config --cflags` `xml2-config --libs` `pkg-config --cflags gtk+-3.0` `pkg-config --libs gtk+-3.0 ` `pkg-config --cflags --libs glib-2.0`
 EXEC = osm
 HEADERS = window.h parse.h osm.h 
 OBJECTS = $(patsubst %.c, %.o, $(wildcard *.c))

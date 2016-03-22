@@ -36,6 +36,7 @@ void parsetoabr(xmlNode* nodeX, map* usermap)
     node* no = malloc(sizeof(node));
     way* wa = malloc(sizeof(way));
     bound* bo = malloc(sizeof(bound));
+    relationlist* rl = malloc(sizeof(relationlist));
     curr = curr->next;
     while(curr != NULL)
     {
@@ -65,6 +66,49 @@ void parsetoabr(xmlNode* nodeX, map* usermap)
         		//debugNode(no);
         		//insertNode(no, usermap->nodes);
          	    g_hash_table_insert(usermap->hashnode, (gpointer)&no->id,(gpointer)no);
+            }
+            if(xmlStrcmp(curr->name, xmlCharStrdup("relation")) == 0)
+            {
+                relation* r = malloc(sizeof(relation));
+                xmlNode * wd = curr->xmlChildrenNode;
+                int wc = 0;
+                while(wd != NULL)
+                {
+                    if(wd->type == XML_ELEMENT_NODE)
+                    {
+                        if(xmlStrcmp(wd->name, xmlCharStrdup("member")) == 0)
+                        {
+                            wc++;
+                        }
+                    }
+                    wd =wd->next;
+                }
+                r->size = wc;
+                r->ways = malloc(sizeof(way*)*wc);
+                r->w_type = malloc(sizeof(short*)*wc);
+                wd = curr->xmlChildrenNode;
+                int tmp = 0;
+                while(wd != NULL)
+                {
+                    if(wd->type == XML_ELEMENT_NODE)
+                    {
+                        if(xmlStrcmp(wd->name, xmlCharStrdup("member")) == 0)
+                        {
+
+                            //r->ways[tmp] = getWayById(atoll((char*)xmlGetProp(wd, xmlCharStrdup("ref"))), usermap->ways);
+                            if(!xmlStrcmp(xmlGetProp(wd, xmlCharStrdup("role")), xmlCharStrdup("inner")))
+                            {
+                                r->w_type[tmp] = 0;
+                            }
+                            if(!xmlStrcmp(xmlGetProp(wd, xmlCharStrdup("role")), xmlCharStrdup("outer")))
+                            {
+                                r->w_type[tmp] = 1;
+                            }
+                        }
+                    }
+                    wd = wd->next;
+                }
+
             }
          	if(xmlStrcmp(curr->name, xmlCharStrdup("way")) == 0){
 
