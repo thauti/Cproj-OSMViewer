@@ -7,9 +7,20 @@
 
 #include "window.h"
 
-#define PI 3.14159265358979323846
+#define PI 3.141
 #define DEG2RAD(DEG) ((DEG)*((PI)/(180.0)))
 
+
+double tomercator_x(double src)
+{
+
+    return ;
+}
+double tomercator_y(double src)
+{
+
+    return ;
+}
 void dessiner_abr(GtkWidget* widget, cairo_t *cr, tree_way* t, bound* b)
 {
 
@@ -38,30 +49,36 @@ void dessiner_abr(GtkWidget* widget, cairo_t *cr, tree_way* t, bound* b)
             cairo_set_line_width(cr, 1);  
             cairo_set_source_rgb(cr, 0.55, 0.55, 0.55);
         }
+                    double ratio = 800 / (PI*2);
+                    double zoom = 2*2*2*2*2*2*2*2*2*2*2*2*2*2*2;
+                  //  double x_min = 800*((b->minlon+180)/360)*zoom;
+                  //  double y_min = 600/2-log(tan((PI/4)+ DEG2RAD(b->minlat)/2))*ratio*zoom;
+
+                  //  double x_max = 800*((b->maxlon+180)/360)*zoom;
+                 // double y_max = 600/2-log(tan((PI/4)+ DEG2RAD(b->maxlat)/2))*ratio*zoom;
+                    double xratio = (800/(b->maxlat-b->minlat));
+                    double yratio = (600/(b->maxlon-b->minlon));
         for(i=0;i<t->w->nodes_size-1;i++)
         {
             if(t->w->type_way != 0 && t->w->type_val != 0){
                 //g_print(" -> %f \n", t->w->nodes[i+1]->lat - b->minlat);
                 if(t->w->visible == 1 ){
                     //cairo_line_to(cr, (t->w->nodes[i]->lat - b->minlat)*80000+100, (t->w->nodes[i]->longi - b->minlon)*80000-20);
-                    float ratio = 800 / (PI*2);
-                    float zoom = 2*2*2*2*2*2*2*2*2*2*2*2*2*2*2*2;
-                    float x = 800*((t->w->nodes[i]->longi+180)/360)*zoom;
-                    float y = 600/2-log(tan((PI/4)+ DEG2RAD(t->w->nodes[i]->lat)/2))*ratio*zoom;
-
-                    float x_min = 800*((b->minlon+180)/360)*zoom;
-                    float y_min = 600/2-log(tan((PI/4)+ DEG2RAD(b->minlat)/2))*ratio*zoom;
-
-                    float x_max = 800*((b->maxlon+180)/360)*zoom;
-                    float y_max = 600/2-log(tan((PI/4)+ DEG2RAD(b->maxlat)/2))*ratio*zoom;
-
-                   // g_print(" X : %f \n", x_min);
-                    //g_print(" Y : %f \n", y_min);
+                    double x = (t->w->nodes[i]->lat*xratio)-(800/(b->maxlat-b->minlat)*b->minlat);
+                    double y = (t->w->nodes[i]->longi*yratio)-(600/(b->maxlon-b->minlon)*b->minlon);;
                     
-                   // g_print(" Xm : %f \n", x_max);
-                    //g_print(" Ym : %f \n", y_max);
+                   // g_print("b->maxlon - b->monlon %lf \n", b->maxlon-b->minlon);
+                    //g_print("b->maxlat - b->monlat %lf \n", b->maxlat-b->minlat);
+                    //g_print("res : %f \n", (800/(b->maxlat-b->minlat)*b->maxlat) -  (800/(b->maxlat-b->minlat)*b->minlat));
 
-                    cairo_line_to(cr,x-x_min,y-y_min+600);
+                    //g_print("b->maxlat %lf \n", b->maxlat);
+                    //g_print("b->minlat %lf \n", b->minlat);
+                   //g_print(" Xm : %f \n", x);
+                    //g_print(" Ym : %f \n", y);
+
+                    cairo_line_to(cr,x,y);
+                     g_print(" Xmx : %f \n", DEG2RAD(x));
+                    g_print(" Ymx : %f \n", 6371*log(tan(PI/4)+(DEG2RAD(y))/2));
                 }
             }
         }

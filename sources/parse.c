@@ -48,6 +48,7 @@ void parsetoabr(xmlNode* nodeX, map* usermap)
                 usermap->bounds->maxlon = atof((char*)xmlGetProp(curr, xmlCharStrdup("maxlon")));
                 usermap->bounds->minlon = atof((char*)xmlGetProp(curr, xmlCharStrdup("minlon")));
 
+
             }
              if(xmlStrcmp(curr->name,  xmlCharStrdup("node")) == 0){
 
