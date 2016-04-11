@@ -56,16 +56,17 @@ void dessiner_abr(GtkWidget* widget, cairo_t *cr, tree_way* t, bound* b)
 
                   //  double x_max = 800*((b->maxlon+180)/360)*zoom;
                  // double y_max = 600/2-log(tan((PI/4)+ DEG2RAD(b->maxlat)/2))*ratio*zoom;
-                    double xratio = (800/(b->maxlat-b->minlat));
-                    double yratio = (600/(b->maxlon-b->minlon));
+                    double xratio = (800/(b->maxlon-b->minlon));
+                    double yratio = (600/(b->maxlat-b->minlat))*-1;
         for(i=0;i<t->w->nodes_size-1;i++)
         {
             if(t->w->type_way != 0 && t->w->type_val != 0){
                 //g_print(" -> %f \n", t->w->nodes[i+1]->lat - b->minlat);
                 if(t->w->visible == 1 ){
                     //cairo_line_to(cr, (t->w->nodes[i]->lat - b->minlat)*80000+100, (t->w->nodes[i]->longi - b->minlon)*80000-20);
-                    double x = (t->w->nodes[i]->lat*xratio)-(800/(b->maxlat-b->minlat)*b->minlat);
-                    double y = (t->w->nodes[i]->longi*yratio)-(600/(b->maxlon-b->minlon)*b->minlon);;
+                    
+                    double x = (t->w->nodes[i]->longi*xratio)-(b->minlon*xratio);
+                    double y = (t->w->nodes[i]->lat*yratio)-(b->minlat*yratio)+600;
                     
                    // g_print("b->maxlon - b->monlon %lf \n", b->maxlon-b->minlon);
                     //g_print("b->maxlat - b->monlat %lf \n", b->maxlat-b->minlat);
