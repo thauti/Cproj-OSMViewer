@@ -28,6 +28,9 @@ void parsetoabr(xmlNode* nodeX, map* usermap)
     usermap->ways->w_droite = NULL;
     usermap->bounds  = malloc(sizeof(bound));
     usermap->hashnode = g_hash_table_new(g_int64_hash, g_int64_equal);
+    usermap->xdecal = 0;
+    usermap->ydecal = 0;
+    usermap->zoom = 1;
     /*
     tree_node* rootN = usermap->nodes;
     tree_way* rootW = usermap->ways;

@@ -50,6 +50,9 @@ typedef struct map_s
 	tree_node* nodes;
 	tree_way* ways;
 	bound* bounds;
+	int xdecal;
+	int ydecal;
+	float zoom;
 }map;
 
 typedef struct way_nodraw_s
