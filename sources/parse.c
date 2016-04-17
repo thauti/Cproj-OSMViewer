@@ -17,6 +17,25 @@ void debugNode(node* n)
 	printf("visible %d \n", n->visible);
 
 }
+void addrelation(relationlist* li, relation* r)
+{
+    if(li->curr == NULL)
+    {
+        li->curr = r;
+    }
+    else
+    {
+        if(li->next != NULL){
+            addrelation(li->next, r);
+        }
+        else{
+            li->next = malloc(sizeof(relationlist));
+            li->next->curr = NULL;
+            li->next->next = NULL;
+            addrelation(li->next, r);
+        }
+    }
+}
 void parsetoabr(xmlNode* nodeX, map* usermap)
 {
 
@@ -31,6 +50,10 @@ void parsetoabr(xmlNode* nodeX, map* usermap)
     usermap->xdecal = 0;
     usermap->ydecal = 0;
     usermap->zoom = 1;
+    usermap->relations=malloc(sizeof(relationlist));
+    usermap->relations->curr=NULL;
+    usermap->relations->next=NULL;
+
     /*
     tree_node* rootN = usermap->nodes;
     tree_way* rootW = usermap->ways;
@@ -39,7 +62,6 @@ void parsetoabr(xmlNode* nodeX, map* usermap)
     node* no = malloc(sizeof(node));
     way* wa = malloc(sizeof(way));
     bound* bo = malloc(sizeof(bound));
-    relationlist* rl = malloc(sizeof(relationlist));
     curr = curr->next;
     while(curr != NULL)
     {
@@ -112,7 +134,7 @@ void parsetoabr(xmlNode* nodeX, map* usermap)
                     }
                     wd = wd->next;
                 }
-
+                addrelation(usermap->relations, r);
             }
          	if(xmlStrcmp(curr->name, xmlCharStrdup("way")) == 0){
 
@@ -206,6 +228,11 @@ void parsetoabr(xmlNode* nodeX, map* usermap)
                                     wa->type_val = 7;
 
                                 }
+                                 else if(xmlStrcmp(prop_value,  xmlCharStrdup("grass")) == 0)
+                                {
+                                    wa->type_val = 13;
+
+                                }
                                 else
                                 {
                                     wa->type_val = 4;
@@ -266,36 +293,7 @@ void parsetoabr(xmlNode* nodeX, map* usermap)
 		}
 		curr = curr->next;
 	}
-/*
-	xmlNode* curr=NULL;
-    node* no = malloc(sizeof(node));
-    way* wa = malloc(sizeof(way));
-	for(curr = nodeX;curr;curr=curr->next)
-	{
-		 if (curr->type == XML_ELEMENT_NODE) {
-		 	printf("node type: Element, name: %s\n", curr->name);
-            if(xmlStrcmp(curr->name, "node") == 0){
 
-        		no = malloc(sizeof(node));
-        		no->id = atoll(xmlGetProp(curr, "id"));
-        		no->lat = atof(xmlGetProp(curr, "lat"));
-        		no->longi = atof(xmlGetProp(curr, "lon"));
-        		no->visible = 1;
-
-        		//debugNode(no);
-        		insertNode(no, rootN);
-         	}
-         	if(xmlStrcmp(curr->name, "way") == 0){
-
-        		wa = malloc(sizeof(way));
-        		wa->id = atoll(xmlGetProp(curr, "id"));
-        		wa->visible = 1;
-        		insertWay(wa, rootW);
-         	}
-        }
-    printf("+");
-    parsetoabr(curr->xmlChildrenNode, rootN ,rootW);
-	}*/
 }
 
 int parse(char* filename, map* usermap)

@@ -28,6 +28,16 @@ int main(int argc, char** argv)
 	{
 		fprintf(stderr, "Erreur à l'ouverture de  %s \n", argv[1]);
 	}
+	int continuer=1;
+    relationlist* temp;
+    temp = usermap->relations;
+    int s = 0;
+    do
+    {
+     		s=s+1;
+            printf("r");
+            temp=temp->next;
+    }while(temp!=NULL);
 	//printf("# %p <- \n",getNodeById(3257359455, abr));
 	//printf("# %p <- \n",getWayById(4039117, abr3));
 	

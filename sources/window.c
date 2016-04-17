@@ -13,50 +13,48 @@
 #define deg2rad(d) (((d)*M_PI)/180)
 #define rad2deg(d) (((d)*180)/M_PI)
 
-
-
-void dessiner_abr(GtkWidget* widget, cairo_t *cr,map* map, tree_way* t, bound* b)
+void dessiner_abr_route(GtkWidget* widget, cairo_t *cr,map* map, tree_way* t, bound* b, relationlist* r)
 {
 
   //  g_print("%f \n", b->minlat);
 //    g_print("%f \n", b->minlon);
-
+    double zoom = 1;
+     double xmin =(256/PI)*zoom*(deg2rad(b->minlon)+PI);
+     double ymin =(256/PI)*zoom*(PI-log(tan((PI/4) + (deg2rad(b->minlat)/2))));
     int i =0;
     if(t->w->visible){
-        if(t->w->type_way == 1)
+        switch(t->w->type_way)
         {
-            cairo_set_line_width(cr, 2);  
-
-            cairo_set_source_rgb(cr,0.72,0.71,0.66);
-
-        }else if(t->w->type_way == 2){
-            cairo_set_line_width(cr, 4);  
-            cairo_set_source_rgb(cr, 0.8, 0.8, 0.8);
+            case 1:
+                cairo_set_line_width(cr, 2);  
+                cairo_set_source_rgb(cr,0.72,0.71,0.66);
+                break;
+            case 2:
+                cairo_set_line_width(cr, 4);  
+                cairo_set_source_rgb(cr, 0.8, 0.8, 0.8);
+                break;
+            case 5:
+                cairo_set_line_width(cr, 1);  
+                cairo_set_source_rgb(cr, 0.6, 0.7, 0.8);
+                break;
+            default:
+                cairo_set_line_width(cr, 1);  
+                cairo_set_source_rgb(cr, 0.55, 0.55, 0.55);
+                break;
         }
-        else if(t->w->type_way == 5)
-        {
-            cairo_set_line_width(cr, 1);  
-           cairo_set_source_rgb(cr,0.6,0.7,0.8);
-        }
-        else
-        {
-            cairo_set_line_width(cr, 1);  
-            cairo_set_source_rgb(cr, 0.55, 0.55, 0.55);
-        }
+       
                     double ratio = 800 / (PI*2);
                     double zoom = 1;
                 
                     double xratio = (800/(b->maxlon-b->minlon));
         for(i=0;i<t->w->nodes_size-1;i++)
         {
+        if(t->w->nodes[t->w->nodes_size-2] != t->w->nodes[0]){
             if(t->w->type_way != 0 && t->w->type_val != 0){
                 //g_print(" -> %f \n", t->w->nodes[i+1]->lat - b->minlat);
                 if(t->w->visible == 1 ){
                     //cairo_line_to(cr, (t->w->nodes[i]->lat - b->minlat)*80000+100, (t->w->nodes[i]->longi - b->minlon)*80000-20);
                     
-
-                    double xmin =(256/PI)*zoom*(deg2rad(b->minlon)+PI);
-                    double ymin =(256/PI)*zoom*(PI-log(tan((PI/4) + (deg2rad(b->minlat)/2))));
                     double x = (256/PI)*zoom*(deg2rad(t->w->nodes[i]->longi)+PI)-xmin;
                     double y = (256/PI)*zoom*(PI-log(tan((PI/4) + (deg2rad(t->w->nodes[i]->lat)/2))))-ymin;
                   
@@ -69,8 +67,81 @@ void dessiner_abr(GtkWidget* widget, cairo_t *cr,map* map, tree_way* t, bound* b
                   //  g_print(" Ymx : %f \n", y);
                 }
             }
+         }
         }
-        if(t->w->nodes[t->w->nodes_size-2] == t->w->nodes[0]){
+               
+               // g_print("%d", t->w->type_way);
+               
+            
+
+                cairo_stroke(cr);
+    }
+    if(t->w_gauche != NULL)
+    {
+        dessiner_abr_route(widget,cr,map, t->w_gauche,b,r);
+    }
+    if(t->w_droite != NULL){
+        dessiner_abr_route(widget,cr,map, t->w_droite,b,r);
+    }
+}
+////////////////////////////
+
+void dessiner_abr(GtkWidget* widget, cairo_t *cr,map* map, tree_way* t, bound* b, relationlist* r)
+{
+        double zoom = 1;
+        double xmin =(256/PI)*zoom*(deg2rad(b->minlon)+PI);
+        double ymin =(256/PI)*zoom*(PI-log(tan((PI/4) + (deg2rad(b->minlat)/2))));
+  //  g_print("%f \n", b->minlat);
+//    g_print("%f \n", b->minlon);
+
+    int i =0;
+    if(t->w->visible){
+        switch(t->w->type_way)
+        {
+            case 1:
+                cairo_set_line_width(cr, 2);  
+                cairo_set_source_rgb(cr,0.72,0.71,0.66);
+                break;
+            case 2:
+                cairo_set_line_width(cr, 4);  
+                cairo_set_source_rgb(cr, 0.8, 0.8, 0.8);
+                break;
+            case 5:
+                cairo_set_line_width(cr, 1);  
+                cairo_set_source_rgb(cr, 0.6, 0.7, 0.8);
+                break;
+            default:
+                cairo_set_line_width(cr, 1);  
+                cairo_set_source_rgb(cr, 0.55, 0.55, 0.55);
+                break;
+        }
+       
+                    double ratio = 800 / (PI*2);
+                
+                    double xratio = (800/(b->maxlon-b->minlon));
+        for(i=0;i<t->w->nodes_size-1;i++)
+        {
+            if(t->w->nodes[t->w->nodes_size-2] == t->w->nodes[0]){
+            if(t->w->type_way != 0 && t->w->type_val != 0){
+                //g_print(" -> %f \n", t->w->nodes[i+1]->lat - b->minlat);
+                if(t->w->visible == 1 ){
+                    //cairo_line_to(cr, (t->w->nodes[i]->lat - b->minlat)*80000+100, (t->w->nodes[i]->longi - b->minlon)*80000-20);
+                    
+
+                    double x = (256/PI)*zoom*(deg2rad(t->w->nodes[i]->longi)+PI)-xmin;
+                    double y = (256/PI)*zoom*(PI-log(tan((PI/4) + (deg2rad(t->w->nodes[i]->lat)/2))))-ymin;
+                  
+                   //g_print(" Xm : %f \n", x);
+                    //g_print(" Ym : %f \n", y);
+
+                    cairo_line_to(cr,(x*xratio+map->xdecal)*map->zoom,(y*xratio+600+map->ydecal)*map->zoom);
+                    
+                  //   g_print(" Xmx : %f \n", xratio+map->xdecal);
+                  //  g_print(" Ymx : %f \n", y);
+                }
+            }
+         }
+        }
                // g_print("%d", t->w->type_way);
                 cairo_close_path(cr);
                 cairo_stroke_preserve(cr);
@@ -93,15 +164,17 @@ void dessiner_abr(GtkWidget* widget, cairo_t *cr,map* map, tree_way* t, bound* b
                         {
                             cairo_set_source_rgb(cr,0.73,0.82,0.49);
                         }
+                        else if(t->w->type_val == 13)
+                        {
+                            cairo_set_source_rgb(cr,0.73,0.82,0.49);
+                        }
                         else if(t->w->type_val == 7)
                         {
-                        cairo_set_source_rgb(cr,0.90,0.88,0.88);
-
+                            cairo_set_source_rgb(cr,0.60,0.60,0.60);
                         }
                         else
                         {
-                            cairo_set_source_rgb(cr,0.88,0.87,0.82);
-  
+                           cairo_set_source_rgb(cr,0.88,0.87,0.82);
                         }
                         break;
                     case 4:
@@ -119,21 +192,30 @@ void dessiner_abr(GtkWidget* widget, cairo_t *cr,map* map, tree_way* t, bound* b
                         cairo_set_source_rgb(cr,0.6,0.7,0.8);
                         break;
                 }
-                if(t->w->type_way != 0)
+                if(t->w->type_way != 0 &&(t->w->type_val!=7))
                 {
                     cairo_fill(cr);
                 }
-            }
+
                 cairo_stroke(cr);
     }
     if(t->w_gauche != NULL)
     {
-        dessiner_abr(widget,cr,map, t->w_gauche,b);
+        dessiner_abr(widget,cr,map, t->w_gauche,b,r);
     }
     if(t->w_droite != NULL){
-        dessiner_abr(widget,cr,map, t->w_droite,b);
+        dessiner_abr(widget,cr,map, t->w_droite,b,r);
     }
-    
+    relationlist* temp = r;
+    int s = 0;
+    do
+    {
+        s=s+1;
+           // printf("r");
+            temp=temp->next;
+
+    }while(temp!=NULL);
+    printf("%d\n",s);
 }
 gboolean dessiner(GtkWidget* widget, cairo_t *cr, map* map, gpointer data)
 {
@@ -143,7 +225,9 @@ gboolean dessiner(GtkWidget* widget, cairo_t *cr, map* map, gpointer data)
     height = gtk_widget_get_allocated_height (widget);
     //static const double dashed3[] = {1};
    // cairo_set_dash(cr, dashed3, 1, 0);
-    dessiner_abr(widget,cr,map, map->ways, map->bounds);
+    dessiner_abr(widget,cr,map, map->ways, map->bounds, map->relations);
+    dessiner_abr_route(widget,cr,map, map->ways, map->bounds, map->relations);
+
    /* cairo_set_source_rgb(cr, 0.9, 0.9, 0.9);
     cairo_fill (cr);
     cairo_move_to(cr, 300, 70);  

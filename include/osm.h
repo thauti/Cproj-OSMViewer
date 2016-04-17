@@ -17,7 +17,7 @@ typedef struct way_s
 	char type_way; // 0: inconnue 1: Building 2: Route/highway 3: Landuse(Jardin) 4: Leisure 5:waterway 6:Amenity
 	char type_val; 
 	// 0:Inconnu 1:yes 2:no 3:bassin(landuse) 4:grass/garden 5:park 6:railways 7:residential 8:unclassified 9:primary 10:secondary
-	//11: pedestrian 12: fountain
+	//11: pedestrian 12: fountain 13: grass
 	char* nom;
 	char sensUnique;
 	char visible;
@@ -44,17 +44,6 @@ typedef struct bound_s
 	float maxlon;
 }bound;
 
-typedef struct map_s
-{
-	GHashTable*  hashnode;
-	tree_node* nodes;
-	tree_way* ways;
-	bound* bounds;
-	int xdecal;
-	int ydecal;
-	float zoom;
-}map;
-
 typedef struct way_nodraw_s
 {
 	int64_t way;
@@ -74,6 +63,18 @@ typedef struct relationlist_s
 	struct relation_s* curr;
 	struct relationlist_s* next;
 }relationlist;
+typedef struct map_s
+{
+	GHashTable*  hashnode;
+	tree_node* nodes;
+	tree_way* ways;
+	bound* bounds;
+	struct relationlist_s* relations;
+	int xdecal;
+	int ydecal;
+	float zoom;
+}map;
+
 
 void insertNode(node* no, tree_node* root);
 node* getNodeById(int64_t id, tree_node* root);
