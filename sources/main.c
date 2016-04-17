@@ -14,6 +14,7 @@ int main(int argc, char** argv)
 	map* usermap = malloc(sizeof(map));
 	int status;
 	printf("Ouverture de %s \n", argv[1]);
+	printf("%p", usermap);
 
  	app = gtk_application_new ("org.gtk.osm", G_APPLICATION_FLAGS_NONE);
   	g_signal_connect (app, "activate", G_CALLBACK (create_window), usermap);

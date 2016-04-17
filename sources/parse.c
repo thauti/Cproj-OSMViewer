@@ -304,6 +304,7 @@ int parse(char* filename, map* usermap)
 	LIBXML_TEST_VERSION
 	xmlDocPtr doc;
 	xmlNode *root_element;
+    printf("ouverture de %s\n", filename);
 	doc = xmlReadFile(filename, NULL, 0);
 	if(doc==NULL)
 	{
