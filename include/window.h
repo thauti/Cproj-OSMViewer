@@ -8,3 +8,8 @@ gboolean dessiner(GtkWidget* widget, cairo_t *cr, map* map, gpointer data);
 void exit_window(GtkWidget* widget, gpointer* data);
 void create_window(GtkApplication* app, map* user_map, gpointer user_data);
 
+typedef struct env_s
+{
+	map* usermap;
+	GtkWidget* window;
+}env;

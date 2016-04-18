@@ -53,7 +53,7 @@ void parsetoabr(xmlNode* nodeX, map* usermap)
     usermap->relations=malloc(sizeof(relationlist));
     usermap->relations->curr=NULL;
     usermap->relations->next=NULL;
-
+    usermap->opt_rail = 1;
     /*
     tree_node* rootN = usermap->nodes;
     tree_way* rootW = usermap->ways;
@@ -200,6 +200,10 @@ void parsetoabr(xmlNode* nodeX, map* usermap)
                                 {
                                     wa->type_val = 11;
                                 }
+                                else if(xmlStrcmp(prop_value,  xmlCharStrdup("tertiary")) == 0)
+                                {
+                                    wa->type_val = 14;
+                                }
                                 else
                                 {
                                     wa->type_val = 0;
@@ -211,6 +215,11 @@ void parsetoabr(xmlNode* nodeX, map* usermap)
                                 wa->type_way = 5;
                                 wa->type_val = 99;
 
+                            }
+                            if(xmlStrcmp(prop,  xmlCharStrdup("railway")) == 0)
+                            {
+                                wa->type_way = 7;
+                                wa->type_val = 6;
                             }
                             if(xmlStrcmp(prop,  xmlCharStrdup("landuse")) == 0)
                             {

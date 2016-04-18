@@ -23,6 +23,9 @@ void dessiner_abr_route(GtkWidget* widget, cairo_t *cr,map* map, tree_way* t, bo
      double ymin =(256/PI)*zoom*(PI-log(tan((PI/4) + (deg2rad(b->minlat)/2))));
     int i =0;
     if(t->w->visible){
+
+        static const double def[] = {1.0};
+        cairo_set_dash(cr, def,0, 0);
         switch(t->w->type_way)
         {
             case 1:
@@ -32,6 +35,14 @@ void dessiner_abr_route(GtkWidget* widget, cairo_t *cr,map* map, tree_way* t, bo
             case 2:
                 cairo_set_line_width(cr, 4);  
                 cairo_set_source_rgb(cr, 0.8, 0.8, 0.8);
+                if(t->w->type_val == 9){
+                    cairo_set_line_width(cr, 10);  
+                    cairo_set_source_rgb(cr, 0.8, 0.6, 0.6);
+                }
+                 if(t->w->type_val == 10){
+                    cairo_set_line_width(cr, 10);  
+                    cairo_set_source_rgb(cr, 0.89, 0.92, 0.49);
+                }
                 break;
             case 5:
                 cairo_set_line_width(cr, 1);  
@@ -42,15 +53,30 @@ void dessiner_abr_route(GtkWidget* widget, cairo_t *cr,map* map, tree_way* t, bo
                 cairo_set_source_rgb(cr, 0.55, 0.55, 0.55);
                 break;
         }
+        if(t->w->type_val == 6)
+        {
+            static const double dashed2[] = {14.0, 6.0};
+            cairo_set_dash(cr, dashed2, 2, 0);
+
+            cairo_set_line_width(cr, 2);  
+            cairo_set_source_rgb(cr, 0.60, 0.57, 0.56);
+        }
+        if(t->w->type_way == 7)
+        {
+            if(map->opt_rail == 0)
+                cairo_set_line_width(cr, 0);  
+            
+        }
        
                     double ratio = 800 / (PI*2);
                     double zoom = 1;
                 
                     double xratio = (800/(b->maxlon-b->minlon));
+                    
         for(i=0;i<t->w->nodes_size-1;i++)
         {
         if(t->w->nodes[t->w->nodes_size-2] != t->w->nodes[0]){
-            if(t->w->type_way != 0 && t->w->type_val != 0){
+            if(t->w->type_way != 0){
                 //g_print(" -> %f \n", t->w->nodes[i+1]->lat - b->minlat);
                 if(t->w->visible == 1 ){
                     //cairo_line_to(cr, (t->w->nodes[i]->lat - b->minlat)*80000+100, (t->w->nodes[i]->longi - b->minlon)*80000-20);
@@ -122,7 +148,7 @@ void dessiner_abr(GtkWidget* widget, cairo_t *cr,map* map, tree_way* t, bound* b
         for(i=0;i<t->w->nodes_size-1;i++)
         {
             if(t->w->nodes[t->w->nodes_size-2] == t->w->nodes[0]){
-            if(t->w->type_way != 0 && t->w->type_val != 0){
+            if(t->w->type_way != 0){
                 //g_print(" -> %f \n", t->w->nodes[i+1]->lat - b->minlat);
                 if(t->w->visible == 1 ){
                     //cairo_line_to(cr, (t->w->nodes[i]->lat - b->minlat)*80000+100, (t->w->nodes[i]->longi - b->minlon)*80000-20);
@@ -241,6 +267,15 @@ void exit_window(GtkWidget* widget, gpointer* data)
     gtk_window_close(GTK_WINDOW(data));
 
 }
+gboolean railopt_event(GtkWidget* widget, env* e, gpointer* data)
+{
+    if( e->usermap->opt_rail)
+        e->usermap->opt_rail = 0;
+    else   
+          e->usermap->opt_rail =1;
+    gtk_widget_queue_draw(e->window);
+    return FALSE;
+}
 gboolean moving(GtkWidget* widget, GdkEventKey *event, map* map, gpointer data)
 {
  switch (event->keyval)
@@ -277,15 +312,20 @@ void create_window(GtkApplication* app, map* user_map, gpointer user_data)
 
     GtkWidget *file;
     GtkWidget *filemenu;
+    GtkWidget *option;
+    GtkWidget *optionmenu;
     GtkWidget *menu_bar;
     GtkWidget *open;
     GtkWidget *quit;
+    GtkWidget *railopt;
 
     GtkWidget* draw_area;
-
+    env* e = malloc(sizeof(env));
     // Menu-Bar
     //     ->Menu
     window = gtk_application_window_new (app);
+    e->usermap = user_map;
+    e->window = window;
     draw_area = gtk_drawing_area_new();
     gtk_widget_set_size_request(draw_area, 800,600);
     gint height,width;
@@ -302,14 +342,25 @@ void create_window(GtkApplication* app, map* user_map, gpointer user_data)
     file = gtk_menu_item_new_with_label("Fichier");
     quit = gtk_menu_item_new_with_label("Quitter");
     
+    optionmenu = gtk_menu_new();
+    option = gtk_menu_item_new_with_label("Options");
+    railopt = gtk_check_menu_item_new_with_label("Afficher les rails");
+    gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM(railopt), 1);
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(file), filemenu);
     gtk_menu_shell_append(GTK_MENU_SHELL(filemenu), quit);
     gtk_menu_shell_append(GTK_MENU_SHELL(menu_bar), file);
+
+    gtk_menu_item_set_submenu(GTK_MENU_ITEM(option), optionmenu);
+    gtk_menu_shell_append(GTK_MENU_SHELL(optionmenu), railopt);
+    gtk_menu_shell_append(GTK_MENU_SHELL(menu_bar), option);
+
 
     g_signal_connect (G_OBJECT (draw_area), "draw",G_CALLBACK (dessiner), user_map);
 
 
     g_signal_connect (G_OBJECT (quit),"activate", G_CALLBACK (exit_window),window);
+    g_signal_connect (G_OBJECT (railopt),"activate", G_CALLBACK (railopt_event),e);
+
     g_signal_connect (G_OBJECT (window), "key_press_event", G_CALLBACK (moving), user_map);
 
     box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
