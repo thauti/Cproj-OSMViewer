@@ -215,10 +215,10 @@ void dessiner_abr(GtkWidget* widget, cairo_t *cr,map* map, tree_way* t, bound* b
                         cairo_set_source_rgb(cr,0.6,0.7,0.8);
                         break;
                     case 6:
-                        cairo_set_source_rgb(cr,0.6,0.7,0.8);
+                        cairo_set_source_rgb(cr,0.72,0.71,0.66);
                         break;
                 }
-                if(t->w->type_way != 0 &&(t->w->type_val!=7))
+                if(t->w->type_way != 0 &&(t->w->type_val!=7)&&(t->w->type_way!=6))
                 {
                     cairo_fill(cr);
                 }
