@@ -35,7 +35,7 @@ void dessiner_abr_route(GtkWidget* widget, cairo_t *cr,map* map, tree_way* t, bo
             case 2:
                 cairo_set_line_width(cr, 4);  
                 cairo_set_source_rgb(cr, 0.8, 0.8, 0.8);
-                if(t->w->type_val == 9){
+                if(t->w->type_val == 9 ||t->w->type_val == 16){
                     cairo_set_line_width(cr, 10);  
                     cairo_set_source_rgb(cr, 0.8, 0.6, 0.6);
                 }
@@ -194,6 +194,10 @@ void dessiner_abr(GtkWidget* widget, cairo_t *cr,map* map, tree_way* t, bound* b
                         {
                             cairo_set_source_rgb(cr,0.73,0.82,0.49);
                         }
+                        else if(t->w->type_val == 6)
+                        {
+                            cairo_set_source_rgb(cr,0.82,0.81,0.76);
+                        }
                         else if(t->w->type_val == 7)
                         {
                             cairo_set_source_rgb(cr,0.60,0.60,0.60);
@@ -206,6 +210,10 @@ void dessiner_abr(GtkWidget* widget, cairo_t *cr,map* map, tree_way* t, bound* b
                     case 4:
                         if(t->w->type_val == 5){
                             cairo_set_source_rgb(cr,0.73,0.82,0.49);
+                        }
+                        else if(t->w->type_val == 18){
+                            cairo_set_source_rgb(cr,0.82,0.81,0.76);
+
                         }else
                         {
                             cairo_set_source_rgb(cr,0.6,0.7,0.8);
@@ -217,6 +225,16 @@ void dessiner_abr(GtkWidget* widget, cairo_t *cr,map* map, tree_way* t, bound* b
                     case 6:
                         cairo_set_source_rgb(cr,0.72,0.71,0.66);
                         break;
+                    case 8:
+                        if(t->w->type_val == 17){
+                            cairo_set_source_rgb(cr,0.73,0.82,0.49);
+                        }else{
+
+                            cairo_set_source_rgb(cr,0.6,0.7,0.8);
+                        }
+                        break;
+
+
                 }
                 if(t->w->type_way != 0 &&(t->w->type_val!=7)&&(t->w->type_way!=6))
                 {
@@ -241,7 +259,7 @@ void dessiner_abr(GtkWidget* widget, cairo_t *cr,map* map, tree_way* t, bound* b
             temp=temp->next;
 
     }while(temp!=NULL);
-    printf("%d\n",s);
+   // printf("%d\n",s);
 }
 gboolean dessiner(GtkWidget* widget, cairo_t *cr, map* map, gpointer data)
 {

@@ -204,6 +204,10 @@ void parsetoabr(xmlNode* nodeX, map* usermap)
                                 {
                                     wa->type_val = 14;
                                 }
+                                else if(xmlStrcmp(prop_value,  xmlCharStrdup("motorway")) == 0)
+                                {
+                                    wa->type_val = 16;
+                                }
                                 else
                                 {
                                     wa->type_val = 0;
@@ -228,7 +232,7 @@ void parsetoabr(xmlNode* nodeX, map* usermap)
                                 {
                                     wa->type_val = 3;
                                 }
-                                else if(xmlStrcmp(prop_value,  xmlCharStrdup("railways")) == 0 || xmlStrcmp(prop_value,  xmlCharStrdup("construction")) == 0)
+                                else if(xmlStrcmp(prop_value,  xmlCharStrdup("railway")) == 0 || xmlStrcmp(prop_value,  xmlCharStrdup("construction")) == 0)
                                 {
                                     wa->type_val = 6;
                                 }
@@ -255,6 +259,10 @@ void parsetoabr(xmlNode* nodeX, map* usermap)
                                 {
                                     wa->type_val = 5;
                                 }
+                                if(xmlStrcmp(prop_value,  xmlCharStrdup("bandstand")) == 0)
+                                {
+                                    wa->type_val = 18;
+                                }
                                 else
                                 {
                                     wa->type_val = 5;
@@ -272,6 +280,20 @@ void parsetoabr(xmlNode* nodeX, map* usermap)
                                 {
                                     wa->type_val = 0;
                                 }
+
+                            }
+                             if(strcmp(prop, "natural") == 0)
+                            {
+                                wa->type_way = 8;
+                                if(strcmp(prop_value, "water") == 0)
+                                {
+                                    wa->type_val = 15;
+                                }
+                                if(strcmp(prop_value, "wood") == 0)
+                                {
+                                    wa->type_val = 17;
+                                }
+
 
                             }
                         }

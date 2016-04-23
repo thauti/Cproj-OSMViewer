@@ -13,9 +13,14 @@ int main(int argc, char** argv)
 	GtkApplication *app;
 	map* usermap = malloc(sizeof(map));
 	int status;
-	printf("Ouverture de %s \n", argv[1]);
-	printf("%p", usermap);
+	//printf("Ouverture de %s \n", argv[1]);
+	//printf("%p", usermap);
 
+	if(argc < 2)
+	{
+		printf("Erreur : \n Usage : ./bin/osm <Fichier OSM>\n");
+		exit(1);
+	}
  	app = gtk_application_new ("org.gtk.osm", G_APPLICATION_FLAGS_NONE);
   	g_signal_connect (app, "activate", G_CALLBACK (create_window), usermap);
 
@@ -28,7 +33,7 @@ int main(int argc, char** argv)
 	{
 		fprintf(stderr, "Erreur à l'ouverture de  %s \n", argv[1]);
 	}
-	int continuer=1;
+	/*int continuer=1;
     relationlist* temp;
     temp = usermap->relations;
     int s = 0;
@@ -37,7 +42,7 @@ int main(int argc, char** argv)
      		s=s+1;
             printf("r");
             temp=temp->next;
-    }while(temp!=NULL);
+    }while(temp!=NULL);*/
 	//printf("# %p <- \n",getNodeById(3257359455, abr));
 	//printf("# %p <- \n",getWayById(4039117, abr3));
 	

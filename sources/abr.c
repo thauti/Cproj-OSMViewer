@@ -118,7 +118,7 @@ way* getWayById(int64_t id, tree_way* root)
 {
 	 if(root->w->id == id)
 	 {
-	 	printf("-> Trouvé <-");
+	 	//printf("-> Trouvé <-");
 	 	return root->w;
 	 }
 	 else
