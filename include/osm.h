@@ -17,7 +17,7 @@ typedef struct way_s
 	char type_way; // 0: inconnue 1: Building 2: Route/highway 3: Landuse(Jardin) 4: Leisure 5:waterway 6:Amenity 7:railway 8:natural
 	char type_val; 
 	// 0:Inconnu 1:yes 2:no 3:bassin(landuse) 4:grass/garden 5:park 6:railways 7:residential 8:unclassified 9:primary 10:secondary
-	//11: pedestrian 12: fountain 13: grass 14: tertiary 15:water 16:motorway 17:wood 18:bandstand
+	//11: pedestrian 12: fountain 13: grass 14: tertiary 15:water 16:motorway 17:wood 18:bandstand 19:footway 20:marina 21:treerow
 	char* nom;
 	char sensUnique;
 	char visible;

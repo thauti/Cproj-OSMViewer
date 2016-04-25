@@ -209,6 +209,10 @@ void parsetoabr(xmlNode* nodeX, map* usermap)
                                 {
                                     wa->type_val = 16;
                                 }
+                                else if(xmlStrcmp(prop_value,  xmlCharStrdup("footway")) == 0)
+                                {
+                                    wa->type_val = 19;
+                                }
                                 else
                                 {
                                     wa->type_val = 0;
@@ -264,6 +268,10 @@ void parsetoabr(xmlNode* nodeX, map* usermap)
                                 {
                                     wa->type_val = 18;
                                 }
+                                if(xmlStrcmp(prop_value,  xmlCharStrdup("marina")) == 0)
+                                {
+                                    wa->type_val = 20;
+                                }
                                 else
                                 {
                                     wa->type_val = 5;
@@ -294,7 +302,10 @@ void parsetoabr(xmlNode* nodeX, map* usermap)
                                 {
                                     wa->type_val = 17;
                                 }
-
+                                if(strcmp(prop_value, "tree_row") == 0)
+                                {
+                                    wa->type_val = 21;
+                                }
 
                             }
                         }

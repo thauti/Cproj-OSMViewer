@@ -39,6 +39,7 @@ void dessiner_abr_route(GtkWidget* widget, cairo_t *cr,map* map, tree_way* t, bo
                     cairo_set_line_width(cr, 10);  
                     cairo_set_source_rgb(cr, 0.8, 0.6, 0.6);
                 }
+
                  if(t->w->type_val == 10){
                     cairo_set_line_width(cr, 10);  
                     cairo_set_source_rgb(cr, 0.89, 0.92, 0.49);
@@ -60,6 +61,13 @@ void dessiner_abr_route(GtkWidget* widget, cairo_t *cr,map* map, tree_way* t, bo
 
             cairo_set_line_width(cr, 2);  
             cairo_set_source_rgb(cr, 0.60, 0.57, 0.56);
+        }
+        if(t->w->type_val == 19)
+        {
+            static const double dashed2[] = {10.0, 6.0};
+            cairo_set_dash(cr, dashed2, 2, 0);
+            cairo_set_line_width(cr, 1);  
+            cairo_set_source_rgb(cr, 0.60, 0.20, 0.20);
         }
         if(t->w->type_way == 7)
         {
@@ -214,6 +222,10 @@ void dessiner_abr(GtkWidget* widget, cairo_t *cr,map* map, tree_way* t, bound* b
                         else if(t->w->type_val == 18){
                             cairo_set_source_rgb(cr,0.82,0.81,0.76);
 
+                        }
+                        else if(t->w->type_val == 20){
+                            cairo_set_source_rgb(cr,0.82,0.81,0.76);
+
                         }else
                         {
                             cairo_set_source_rgb(cr,0.6,0.7,0.8);
@@ -228,7 +240,12 @@ void dessiner_abr(GtkWidget* widget, cairo_t *cr,map* map, tree_way* t, bound* b
                     case 8:
                         if(t->w->type_val == 17){
                             cairo_set_source_rgb(cr,0.73,0.82,0.49);
-                        }else{
+                        }
+                        else if(t->w->type_val == 21){
+                            cairo_set_source_rgb(cr,0.73,0.82,0.49);
+
+                        }
+                        else{
 
                             cairo_set_source_rgb(cr,0.6,0.7,0.8);
                         }
