@@ -267,11 +267,17 @@ gboolean dessiner(GtkWidget* widget, cairo_t *cr, map* map, gpointer data)
     GdkRGBA color;
     width = gtk_widget_get_allocated_width (widget);
     height = gtk_widget_get_allocated_height (widget);
+    cairo_surface_t* test;
     //static const double dashed3[] = {1};
    // cairo_set_dash(cr, dashed3, 1, 0);
     dessiner_abr(widget,cr,map, map->ways, map->bounds, map->relations);
     dessiner_abr_route(widget,cr,map, map->ways, map->bounds, map->relations);
-
+    if(map->render_png == 1){
+    test=cairo_get_target (cr);
+    cairo_surface_write_to_png (test,
+                           "output.png");
+    map->render_png =0;
+    }
    /* cairo_set_source_rgb(cr, 0.9, 0.9, 0.9);
     cairo_fill (cr);
     cairo_move_to(cr, 300, 70);  
@@ -291,6 +297,12 @@ gboolean railopt_event(GtkWidget* widget, env* e, gpointer* data)
         e->usermap->opt_rail = 0;
     else   
           e->usermap->opt_rail =1;
+    gtk_widget_queue_draw(e->window);
+    return FALSE;
+}
+gboolean export_event(GtkWidget* widget, env* e, gpointer* data)
+{
+    e->usermap->render_png =1;
     gtk_widget_queue_draw(e->window);
     return FALSE;
 }
@@ -329,14 +341,13 @@ void create_window(GtkApplication* app, map* user_map, gpointer user_data)
     GtkWidget *box;
 
     GtkWidget *file;
+    GtkWidget *export;
     GtkWidget *filemenu;
     GtkWidget *option;
     GtkWidget *optionmenu;
     GtkWidget *menu_bar;
-    GtkWidget *open;
     GtkWidget *quit;
     GtkWidget *railopt;
-
     GtkWidget* draw_area;
     env* e = malloc(sizeof(env));
     // Menu-Bar
@@ -346,6 +357,7 @@ void create_window(GtkApplication* app, map* user_map, gpointer user_data)
     e->window = window;
     draw_area = gtk_drawing_area_new();
     gtk_widget_set_size_request(draw_area, 800,600);
+    gtk_window_set_resizable (GTK_WINDOW(window), FALSE);
     gint height,width;
     gtk_window_get_size(GTK_WINDOW(window), &width, &height);
     gtk_window_set_title (GTK_WINDOW (window), "OpenStreetMap Renderer");
@@ -358,13 +370,18 @@ void create_window(GtkApplication* app, map* user_map, gpointer user_data)
 
     filemenu = gtk_menu_new();
     file = gtk_menu_item_new_with_label("Fichier");
+
     quit = gtk_menu_item_new_with_label("Quitter");
-    
+    export = gtk_menu_item_new_with_label("Exporter en PNG");
+
     optionmenu = gtk_menu_new();
     option = gtk_menu_item_new_with_label("Options");
     railopt = gtk_check_menu_item_new_with_label("Afficher les rails");
     gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM(railopt), 1);
     gtk_menu_item_set_submenu(GTK_MENU_ITEM(file), filemenu);
+
+    gtk_menu_shell_append(GTK_MENU_SHELL(filemenu), export);
+
     gtk_menu_shell_append(GTK_MENU_SHELL(filemenu), quit);
     gtk_menu_shell_append(GTK_MENU_SHELL(menu_bar), file);
 
@@ -377,6 +394,8 @@ void create_window(GtkApplication* app, map* user_map, gpointer user_data)
 
 
     g_signal_connect (G_OBJECT (quit),"activate", G_CALLBACK (exit_window),window);
+    g_signal_connect (G_OBJECT (export),"activate", G_CALLBACK (export_event),e);
+
     g_signal_connect (G_OBJECT (railopt),"activate", G_CALLBACK (railopt_event),e);
 
     g_signal_connect (G_OBJECT (window), "key_press_event", G_CALLBACK (moving), user_map);

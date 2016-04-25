@@ -74,6 +74,7 @@ typedef struct map_s
 	int ydecal;
 	float zoom;
 	char opt_rail;
+	int render_png;
 }map;
 
 

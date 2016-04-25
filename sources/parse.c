@@ -54,6 +54,7 @@ void parsetoabr(xmlNode* nodeX, map* usermap)
     usermap->relations->curr=NULL;
     usermap->relations->next=NULL;
     usermap->opt_rail = 1;
+    usermap->render_png = 0;
     /*
     tree_node* rootN = usermap->nodes;
     tree_way* rootW = usermap->ways;
