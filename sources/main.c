@@ -1,10 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <gtk/gtk.h>
+#include <string.h>
 
 #include "osm.h"
 #include "window.h"
-
 #include "parse.h"
 
 
@@ -15,10 +15,15 @@ int main(int argc, char** argv)
 	int status;
 	//printf("Ouverture de %s \n", argv[1]);
 	//printf("%p", usermap);
-
 	if(argc < 2)
 	{
 		printf("Erreur : \n Usage : ./bin/osm <Fichier OSM>\n");
+		exit(1);
+	}
+	int t = strlen(argv[1]);
+	
+	if(argv[1][t-1] != 'm' || argv[1][t-2] != 's'|| argv[1][t-3] != 'o'){
+		printf("Erreur : \n Le fichier n'est pas un fichier .osm\n");
 		exit(1);
 	}
  	app = gtk_application_new ("org.gtk.osm", G_APPLICATION_FLAGS_NONE);
