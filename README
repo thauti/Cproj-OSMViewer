@@ -22,6 +22,8 @@ Le projet implémente :
 - Les lacs
 - Les espaces verts
 - Les rivages
+- Le scroling (avec les flèches)
+- Le zoom (avec les touches z et s)
 
 La possibilité d'afficher/masquer des données
 L'export en PNG (dans un fichier output.png)
