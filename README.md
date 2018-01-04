@@ -1,13 +1,14 @@
-#Conduite de Projet
+# Conduite de Projet
 
+![Exemple](screenshot.png)
 
-##Compilation
+## Compilation
 
 Pour compiler le projet, il faut utiliser la commande "make" dans le dossier courant.
 
-##Execution
+## Execution
 
-Le fichier executable un fois compilÈ se trouve dans le dossier "bin".
+Le fichier executable un fois compil√© se trouve dans le dossier "bin".
 Les fichiers d'exemples se trouvent dans le dossier "example"
 
 Le programme prend un fichier OSM en argument.
@@ -15,13 +16,13 @@ Le programme prend un fichier OSM en argument.
 Un exemple typique d'execution :
 ./bin/osm example/03_paris_ile_saint_louis.osm
 
-Le projet implÈmente : 
-- Les rues (avec les diffÈrents types associÈs)
-- Les b‚timents
+Le projet impl√©mente : 
+- Les rues (avec les diff√©rents types associ√©s)
+- Les b√¢timents
 - Les cours d'eau
 - Les lacs
 - Les espaces verts
 - Les rivages
 
-La possibilitÈ d'afficher/masquer des donnÈes
+La possibilit√© d'afficher/masquer des donn√©es
 L'export en PNG (dans un fichier output.png)
